@@ -1,0 +1,21 @@
+/**
+ * intrabuild
+ * (c) 2002-2008 siteartwork.de/MindPatterns
+ * license@siteartwork.de
+ *
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+.de-intrabuild-groupware-email-LatestEmailsPanel-itemRead div{
+    font-weight:normal;
+}
+
+.de-intrabuild-groupware-email-LatestEmailsPanel-itemUnread div {
+    font-weight:bold;
+}
