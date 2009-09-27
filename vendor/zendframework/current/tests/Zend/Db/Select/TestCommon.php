@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -16,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestCommon.php 12004 2008-10-18 14:29:41Z mikaelkael $
+ * @version    $Id: TestCommon.php 17363 2009-08-03 07:40:18Z bkarwin $
  */
 
 
@@ -35,13 +34,15 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
 {
     /**
      * Test basic use of the Zend_Db_Select class.
+     *
+     * @return Zend_Db_Select
      */
     protected function _select()
     {
@@ -74,6 +75,26 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
     public function testSelectQuery()
     {
         $select = $this->_select();
+        $this->assertType('Zend_Db_Select', $select,
+            'Expecting object of type Zend_Db_Select, got '.get_class($select));
+        $stmt = $select->query();
+        $row = $stmt->fetch();
+        $stmt->closeCursor();
+        $this->assertEquals(2, count($row)); // correct number of fields
+        $this->assertEquals(1, $row['product_id']); // correct data
+    }
+
+    /**
+     * ZF-2017: Test bind use of the Zend_Db_Select class.
+     * @group ZF-2017
+     */
+    public function testSelectQueryWithBinds()
+    {
+        $product_id = $this->_db->quoteIdentifier('product_id');
+
+        $select = $this->_select()->where("$product_id = :product_id")
+                                  ->bind(array(':product_id' => 1));
+
         $this->assertType('Zend_Db_Select', $select,
             'Expecting object of type Zend_Db_Select, got '.get_class($select));
         $stmt = $select->query();
@@ -733,7 +754,7 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
                          . $this->_db->quoteIdentifier('subqueryTable') . '))';
         $this->assertEquals($query, $cmp);
     }
-    
+
     protected function _selectWhereArray()
     {
         $product_id = $this->_db->quoteIdentifier('product_id');
@@ -743,7 +764,7 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
             ->where("$product_id IN (?)", array(1, 2, 3));
         return $select;
     }
-    
+
     public function testSelectWhereArray()
     {
         $select = $this->_selectWhereArray();
@@ -860,7 +881,7 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         setlocale(LC_ALL, $locale);
     }
 
-    /** 
+    /**
      * Test adding an OR WHERE clause to a Zend_Db_Select object.
      */
     protected function _selectWhereOr()
@@ -1313,6 +1334,17 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
     }
 
     /**
+     * @group ZF-4246
+     */
+    protected function _checkExtraField($result)
+    {
+        // Check that extra field ZEND_DB_ROWNUM isn't present
+        // (particulary with Db2 & Oracle)
+        $this->assertArrayNotHasKey('zend_db_rownum', $result);
+        $this->assertArrayNotHasKey('ZEND_DB_ROWNUM', $result);
+    }
+
+    /**
      * Test adding a LIMIT clause to a Zend_Db_Select object.
      */
     protected function _selectLimit()
@@ -1324,6 +1356,9 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         return $select;
     }
 
+    /**
+     * @group ZF-4246
+     */
     public function testSelectLimit()
     {
         $select = $this->_selectLimit();
@@ -1331,6 +1366,26 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         $result = $stmt->fetchAll();
         $this->assertEquals(1, count($result));
         $this->assertEquals(1, $result[0]['product_id']);
+        $this->_checkExtraField($result[0]);
+    }
+
+    /**
+     * @group ZF-5263
+     * @group ZF-4246
+     */
+    public function testSelectLimitFetchCol()
+    {
+        $product_id = $this->_db->quoteIdentifier('product_id');
+
+        $select = $this->_db->select()
+            ->from('zfproducts', 'product_name')
+            ->where($product_id . ' = ?', 3)
+            ->limit(1);
+
+        $result = $this->_db->fetchCol($select);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals('OS X', $result[0]);
+        $this->_checkExtraField($result);
     }
 
     protected function _selectLimitNone()
@@ -1342,12 +1397,16 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         return $select;
     }
 
+    /**
+     * @group ZF-4246
+     */
     public function testSelectLimitNone()
     {
         $select = $this->_selectLimitNone();
         $stmt = $this->_db->query($select);
         $result = $stmt->fetchAll();
         $this->assertEquals(3, count($result));
+        $this->_checkExtraField($result[0]);
     }
 
     protected function _selectLimitOffset()
@@ -1359,6 +1418,9 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         return $select;
     }
 
+    /**
+     * @group ZF-4246
+     */
     public function testSelectLimitOffset()
     {
         $select = $this->_selectLimitOffset();
@@ -1366,6 +1428,7 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         $result = $stmt->fetchAll();
         $this->assertEquals(1, count($result));
         $this->assertEquals(2, $result[0]['product_id']);
+        $this->_checkExtraField($result[0]);
     }
 
     /**
@@ -1380,6 +1443,9 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         return $select;
     }
 
+    /**
+     * @group ZF-4246
+     */
     public function testSelectLimitPageOne()
     {
         $select = $this->_selectLimitPageOne();
@@ -1387,6 +1453,7 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         $result = $stmt->fetchAll();
         $this->assertEquals(1, count($result));
         $this->assertEquals(1, $result[0]['product_id']);
+        $this->_checkExtraField($result[0]);
     }
 
     protected function _selectLimitPageTwo()
@@ -1398,6 +1465,9 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         return $select;
     }
 
+    /**
+     * @group ZF-4246
+     */
     public function testSelectLimitPageTwo()
     {
         $select = $this->_selectLimitPageTwo();
@@ -1405,6 +1475,7 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         $result = $stmt->fetchAll();
         $this->assertEquals(1, count($result));
         $this->assertEquals(2, $result[0]['product_id']);
+        $this->_checkExtraField($result[0]);
     }
 
     /**
@@ -1456,6 +1527,14 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         $result = $stmt->fetchAll();
         $this->assertEquals(7, count($result));
         $this->assertEquals(1, $result[0]['id']);
+    }
+
+    public function testSerializeSelect()
+    {
+        /* checks if the adapter has effectively gotten serialized,
+           no exceptions are thrown here, so it's all right */
+        $serialize = serialize($this->_select());
+        $this->assertType('string',$serialize);
     }
 
 }

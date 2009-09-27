@@ -15,14 +15,24 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id $
  */
 
 require_once 'Zend/Db/Statement/TestCommon.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
+/**
+ * @category   Zend
+ * @package    Zend_Db
+ * @subpackage UnitTests
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Db
+ * @group      Zend_Db_Statement
+ */
 class Zend_Db_Statement_MysqliTest extends Zend_Db_Statement_TestCommon
 {
 
@@ -65,7 +75,7 @@ class Zend_Db_Statement_MysqliTest extends Zend_Db_Statement_TestCommon
         } catch (Zend_Exception $e) {
             $this->assertType('Zend_Db_Statement_Exception', $e,
                 'Expecting object of type Zend_Db_Statement_Exception, got '.get_class($e));
-            $this->assertEquals("Invalid bind-variable position ':id'", $e->getMessage());
+            $this->assertEquals("Invalid bind-variable name ':id'", $e->getMessage());
         }
     }
 
@@ -88,13 +98,29 @@ class Zend_Db_Statement_MysqliTest extends Zend_Db_Statement_TestCommon
         } catch (Zend_Exception $e) {
             $this->assertType('Zend_Db_Statement_Exception', $e,
                 'Expecting object of type Zend_Db_Statement_Exception, got '.get_class($e));
-            $this->assertEquals("Invalid bind-variable position ':id'", $e->getMessage());
+            $this->assertEquals("Invalid bind-variable name ':id'", $e->getMessage());
         }
     }
 
     public function testStatementGetColumnMeta()
     {
         $this->markTestIncomplete($this->getDriver() . ' has not implemented getColumnMeta() yet [ZF-1424]');
+    }
+    
+    /**
+     * Tests ZF-3216, that the statement object throws exceptions that
+     * contain the numerica MySQL SQLSTATE error code
+     * @group ZF-3216
+     */
+    public function testStatementExceptionShouldContainErrorCode()
+    {
+        $sql = "SELECT * FROM *";
+        try {
+            $stmt = $this->_db->query($sql);
+            $this->fail('Expected to catch Zend_Db_Statement_Exception');
+        } catch (Zend_Exception $e) {
+            $this->assertType('int', $e->getCode());
+        }
     }
 
     public function getDriver()

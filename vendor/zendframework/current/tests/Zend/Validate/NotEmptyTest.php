@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -16,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: NotEmptyTest.php 13250 2008-12-14 19:49:21Z thomas $
+ * @version    $Id: NotEmptyTest.php 17680 2009-08-19 20:02:26Z thomas $
  */
 
 // Call Zend_Validate_NotEmptyTest::main() if this source file is executed directly.
@@ -41,8 +40,9 @@ require_once 'Zend/Validate/NotEmpty.php';
  * @category   Zend
  * @package    Zend_Validate
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Validate
  */
 class Zend_Validate_NotEmptyTest extends PHPUnit_Framework_TestCase
 {
@@ -91,6 +91,8 @@ class Zend_Validate_NotEmptyTest extends PHPUnit_Framework_TestCase
             array(true, true),
             array(false, false),
             array(null, false),
+            array(array(), false),
+            array(array(5), true),
         );
         foreach ($valuesExpected as $i => $element) {
             $this->assertEquals($element[1], $this->_validator->isValid($element[0]),
@@ -114,6 +116,15 @@ class Zend_Validate_NotEmptyTest extends PHPUnit_Framework_TestCase
     public function testGetMessages()
     {
         $this->assertEquals(array(), $this->_validator->getMessages());
+    }
+
+    /**
+     * @ZF-4352
+     */
+    public function testNonStringValidation()
+    {
+        $v2 = new Zend_Validate_NotEmpty();
+        $this->assertFalse($this->_validator->isValid($v2));
     }
 }
 

@@ -15,12 +15,19 @@
  * @category   Zend
  * @package    Zend_Service_Twitter
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2006 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id$
  */
 
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'PHPUnit/Framework/TestSuite.php';
+if (!defined('PHPUnit_MAIN_METHOD')) {
+    define('PHPUnit_MAIN_METHOD', 'Zend_Service_TwitterTest::main');
+}
+
+/**
+ * Test helper
+ */
+require_once dirname(__FILE__) . '/../../TestHelper.php';
 
 /** Zend_Service_Twitter */
 require_once 'Zend/Service/Twitter.php';
@@ -35,17 +42,13 @@ require_once 'Zend/Http/Client/Adapter/Test.php';
  * @category   Zend
  * @package    Zend_Service_Twitter
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Service
+ * @group      Zend_Service_Twitter
  */
 class Zend_Service_TwitterTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Change these to your login credentials for testing
-     */
-    const TWITTER_USER = 'zftestuser';
-    const TWITTER_PASS = 'zftestuser';
-
     /**
      * Runs the test methods of this class.
      *
@@ -53,9 +56,7 @@ class Zend_Service_TwitterTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        require_once 'PHPUnit/TextUI/TestRunner.php';
-
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Service_TwitterTest');
+        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }
 
@@ -67,26 +68,18 @@ class Zend_Service_TwitterTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        if (!defined('TESTS_ZEND_SERVICE_TWITTER_ONLINE_ENABLED')
+            || !constant('TESTS_ZEND_SERVICE_TWITTER_ONLINE_ENABLED')
+        ) {
+            $this->markTestSkipped('Twitter tests are not enabled');
+            return;
+        }
+
     	Zend_Service_Abstract::getHttpClient()->setAdapter('Zend_Http_Client_Adapter_Socket');
-        $this->twitter = new Zend_Service_Twitter(self::TWITTER_USER, self::TWITTER_PASS);
-
-        /*$adapter = new Zend_Http_Client_Adapter_Test();
-        $client = new Zend_Http_Client(null, array(
-            'adapter' => $adapter
-        ));
-        $this->adapter = $adapter;
-        Zend_Service_Twitter::setHttpClient($client);*/
-    }
-
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @return void
-     */
-    protected function tearDown()
-    {
-        // unset($this->adapter);
+        $this->twitter = new Zend_Service_Twitter(
+            TESTS_ZEND_SERVICE_TWITTER_USER,
+            TESTS_ZEND_SERVICE_TWITTER_PASS
+        );
     }
 
     /**
@@ -94,8 +87,8 @@ class Zend_Service_TwitterTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorShouldSetUsernameAndPassword()
     {
-        $this->assertEquals('zftestuser', $this->twitter->getUsername());
-        $this->assertEquals('zftestuser', $this->twitter->getPassword());
+        $this->assertEquals(TESTS_ZEND_SERVICE_TWITTER_USER, $this->twitter->getUsername());
+        $this->assertEquals(TESTS_ZEND_SERVICE_TWITTER_PASS, $this->twitter->getPassword());
     }
 
     /**
@@ -651,4 +644,8 @@ class Zend_Service_TwitterTest extends PHPUnit_Framework_TestCase
         }
         $twitter->account->endSession();
     }
+}
+
+if (PHPUnit_MAIN_METHOD == 'Zend_Service_TwitterTest::main') {
+    Zend_Service_TwitterTest::main();
 }

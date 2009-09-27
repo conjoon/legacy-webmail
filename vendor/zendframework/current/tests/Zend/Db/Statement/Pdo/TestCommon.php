@@ -15,14 +15,24 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id $
  */
 
 require_once 'Zend/Db/Statement/TestCommon.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
+/*
+ * @category   Zend
+ * @package    Zend_Db
+ * @subpackage UnitTests
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @group      Zend_Db
+ * @group      Zend_Db_Statement
+ */
 abstract class Zend_Db_Statement_Pdo_TestCommon extends Zend_Db_Statement_TestCommon
 {
 
@@ -61,4 +71,17 @@ abstract class Zend_Db_Statement_Pdo_TestCommon extends Zend_Db_Statement_TestCo
         $stmt->closeCursor();
     }
 
+    /**
+     * @group ZF-4486
+     */
+    public function testStatementIsIterableThroughtForeach()
+    {
+        $select = $this->_db->select()->from('zfproducts');
+        $stmt = $this->_db->query($select);
+        $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
+        foreach ($stmt as $test) {
+            $this->assertTrue($test instanceof stdClass);
+        }
+        $this->assertType('int', iterator_count($stmt));
+    }
 }
