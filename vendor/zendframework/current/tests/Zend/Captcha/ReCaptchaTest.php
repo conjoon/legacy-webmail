@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ReCaptchaTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ReCaptchaTest.php 18166 2009-09-17 13:28:35Z padraic $
  */
 
 // Call Zend_Captcha_ReCaptchaTest::main() if this source file is executed directly.
@@ -130,6 +130,42 @@ class Zend_Captcha_ReCaptchaTest extends PHPUnit_Framework_TestCase
         $this->assertSame($pubKey, $captcha->getService()->getPublicKey());
         $this->assertSame($privKey, $captcha->getService()->getPrivateKey());
     }
+
+    /**
+     * Regression tests for ZF-7654
+     */
+
+    public function testConstructorShouldAllowSettingLangOptionOnServiceObject()
+    {
+        $options = array('lang'=>'fr');
+        $captcha = new Zend_Captcha_ReCaptcha($options);
+        $this->assertEquals('fr', $captcha->getService()->getOption('lang'));
+    }
+
+    public function testConstructorShouldAllowSettingThemeOptionOnServiceObject()
+    {
+        $options = array('theme'=>'black');
+        $captcha = new Zend_Captcha_ReCaptcha($options);
+        $this->assertEquals('black', $captcha->getService()->getOption('theme'));
+    }
+
+    public function testAllowsSettingLangOptionOnServiceObject()
+    {
+        $captcha = new Zend_Captcha_ReCaptcha;
+        $captcha->setOption('lang', 'fr');
+        $this->assertEquals('fr', $captcha->getService()->getOption('lang'));
+    }
+
+    public function testAllowsSettingThemeOptionOnServiceObject()
+    {
+        $captcha = new Zend_Captcha_ReCaptcha;
+        $captcha->setOption('theme', 'black');
+        $this->assertEquals('black', $captcha->getService()->getOption('theme'));
+    }
+
+    /**
+     * End ZF-7654 tests
+    */
 }
 
 class Zend_Captcha_ReCaptchaTest_SessionContainer

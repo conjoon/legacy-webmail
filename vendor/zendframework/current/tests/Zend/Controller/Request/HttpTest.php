@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HttpTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HttpTest.php 18269 2009-09-18 18:55:25Z matthew $
  */
 
 // Call Zend_Controller_Request_HttpTest::main() if this source file is executed directly.
@@ -197,6 +197,13 @@ class Zend_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testClearParams()
+    {
+        $this->_request->setParam('foo', 'bar');
+        $this->_request->clearParams();
+        $this->assertNull($this->_request->getParam('foo'));
+    }
+
     public function testSetGetParam()
     {
         $this->_request->setParam('foo', 'bar');
@@ -319,7 +326,10 @@ class Zend_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
 
     public function testGetRawBodyReturnsFalseWithNoPost()
     {
+        require_once 'Zend/AllTests/StreamWrapper/PhpInput.php';
+        Zend_AllTests_StreamWrapper_PhpInput::mockInput('');
         $this->assertFalse($this->_request->getRawBody());
+        stream_wrapper_restore('php');
     }
 
     public function testGetQuery()
@@ -755,6 +765,31 @@ class Zend_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = '192.168.1.12';
 
         $this->assertEquals('192.168.1.12', $request->getClientIp(false));
+    }
+
+    /**
+     * @group ZF-7756
+     */
+    public function testCallingGetRawBodyMultipleTimesShouldReturnSameValue()
+    {
+        require_once 'Zend/AllTests/StreamWrapper/PhpInput.php';
+        Zend_AllTests_StreamWrapper_PhpInput::mockInput('foobar');
+        $request = new Zend_Controller_Request_Http();
+        $first = $request->getRawBody();
+        $this->assertSame($first, $request->getRawBody());
+        stream_wrapper_restore('php');
+    }
+
+    /**
+     * @group ZF-5107
+     */
+    public function testGetParamsShouldHonorParamSourcesSetting()
+    {
+        $_GET  = array('foo' => 'bar');
+        $_POST = array('foo' => 'baz');
+        $this->_request->setParamSources(array('_POST'));
+        $params = $this->_request->getParams();
+        $this->assertEquals(array('foo' => 'baz'), $params);
     }
 }
 

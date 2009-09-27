@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AclTest.php 17515 2009-08-10 13:48:44Z ralph $
+ * @version    $Id: AclTest.php 18286 2009-09-18 20:19:50Z matthew $
  */
 
 /**
@@ -1197,7 +1197,40 @@ class Zend_Acl_AclTest extends PHPUnit_Framework_TestCase
     	}    	
     	return new Zend_Acl_UseCase1_Acl();
     }
-    
+
+    /**
+     * Returns an array of registered roles
+     * @issue ZF-5638
+     */
+    public function testGetRegisteredRoles()
+    {
+        $acl = $this->_acl;
+        $acl->addRole('developer');
+        $roles = $acl->getRegisteredRoles();
+        $this->assertTrue(is_array($roles));
+        $this->assertFalse(empty($roles));
+    }
+
+    /**
+     * Confirm that deleting a role after allowing access to all roles
+     * raise undefined index error
+     *
+     * @group ZF-5700
+     */
+    public function testRemovingRoleAfterItWasAllowedAccessToAllResourcesGivesError()
+    {
+        $acl = new Zend_Acl();
+        $acl->addRole(new Zend_Acl_Role('test0'));
+        $acl->addRole(new Zend_Acl_Role('test1'));
+        $acl->addRole(new Zend_Acl_Role('test2'));
+        $acl->addResource(new Zend_Acl_Resource('Test'));
+
+        $acl->allow(null,'Test','xxx');
+
+        // error test
+        $acl->removeRole('test0');
+
+        // Check after fix
+        $this->assertFalse($acl->hasRole('test0'));
+    }
 }
-
-

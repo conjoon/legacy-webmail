@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ImportTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ImportTest.php 18291 2009-09-18 21:00:51Z padraic $
  */
 
 /**
@@ -440,5 +440,23 @@ class Zend_Feed_ImportTest extends PHPUnit_Framework_TestCase
         } catch (Zend_Feed_Exception $e) {
             $this->assertType('Zend_Feed_Exception', $e);
         }
+    }
+
+    /**
+     * @issue ZF-5903
+     */
+    public function testFindFeedsIncludesUriAsArrayKey()
+    {
+        if (!defined('TESTS_ZEND_FEED_READER_ONLINE_ENABLED')
+            || !constant('TESTS_ZEND_FEED_READER_ONLINE_ENABLED')
+        ) {
+            $this->markTestSkipped('testFindFeedsIncludesUriAsArrayKey() requires a network connection');
+            return;
+        }
+        Zend_Feed::setHttpClient(new Zend_Http_Client);
+        $feeds = Zend_Feed::findFeeds('http://www.planet-php.net');
+        $this->assertEquals(array(
+            'http://www.planet-php.org:80/rss/', 'http://www.planet-php.org:80/rdf/'
+        ), array_keys($feeds));
     }
 }

@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ActionStackTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ActionStackTest.php 18175 2009-09-17 17:05:48Z matthew $
  */
 
 // Call Zend_Controller_Plugin_ActionStackTest::main() if this source file is executed directly.
@@ -280,6 +280,29 @@ class Zend_Controller_Plugin_ActionStackTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($next->getControllerName(), $request->getControllerName());
         $this->assertEquals($next->getModuleName(), $request->getModuleName());
         $this->assertFalse($request->isDispatched());
+    }
+
+    public function testForwardResetsRequestParamsIfFlagSet()
+    {
+        $plugin   = new Zend_Controller_Plugin_ActionStack();
+        $request  = $this->getNewRequest();
+        $params   = array('foo' => 'bar','baz'=>'bat');
+        $request->setParams($params);
+        $plugin->setRequest($request);
+
+        $this->assertEquals($params,$plugin->getRequest()->getParams());
+
+        $next = $this->getNewRequest();
+        $plugin->forward($next);
+
+        $this->assertEquals($params,$plugin->getRequest()->getParams());
+
+        $plugin->setClearRequestParams(true);
+
+        $next = $this->getNewRequest();
+        $plugin->forward($next);
+
+        $this->assertEquals(array(),$plugin->getRequest()->getParams());
     }
 
     /**

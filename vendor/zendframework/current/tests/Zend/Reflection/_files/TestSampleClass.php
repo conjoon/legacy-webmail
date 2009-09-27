@@ -1,23 +1,10 @@
 <?php
 /**
- * Zend Framework
+ * License Info
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Reflection
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id:$
+ * This is a test File docblock
+ * 
+ * @author Ralph Schindler
  */
 
 /**
@@ -32,6 +19,8 @@ require_once 'Zend/Reflection/File.php';
 
 /**
  * This is a sample class docblock
+ * 
+ * blah
  */
 class Zend_Reflection_TestSampleClass extends ArrayObject
 {
@@ -95,7 +84,8 @@ class Zend_Reflection_TestSampleClass4 implements Zend_Reflection_TestSampleClas
  * 
  * @author Ralph Schindler <ralph.schindler@zend.com>
  */
-class Zend_Reflection_TestSampleClass5 {
+class Zend_Reflection_TestSampleClass5
+{
 
     /**
      * Method ShortDescription
@@ -134,7 +124,40 @@ class Zend_Reflection_TestSampleClass5 {
     
 }
 
+/**
+ * TestSampleClass6 Docblock Short Desc
+ * 
+ * Testing for formatted dockblock tags. See ZF-6726.
+ * (This long description should be longer than 3 lines.
+ * It indeed is longer than 3 lines
+ * now.)
+ * 
+ * @author Carlton Gibson <carlton.gibson@noumenal.co.uk>
+ */
+class Zend_Reflection_TestSampleClass6
+{
 
+    /**
+     * Method ShortDescription
+     * 
+     * Notice the multiple spaces aligning the columns in the docblock
+     * tags. (This long description should be longer than 3 lines.
+     * It indeed is longer than 3 lines
+     * now.)
+     *
+     * @emptyTag
+     * @descriptionTag           A tag with just a description
+     * @param   int     $var     Description of $var
+     * @return  string           Description of return value
+     */
+    public function doSomething($var)
+    {
+        //we need a multi-line method body.
+        $assigned = 1;
+        $alsoAssigined = 2;
+        return 'mixedValue';
+    }
+}
 
 /**
  * Enter description here...

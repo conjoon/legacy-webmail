@@ -17,9 +17,9 @@
  * @subpackage Nirvanix
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ImfsTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ImfsTest.php 18287 2009-09-18 20:22:42Z padraic $
  */
- 
+
 /**
  * @see Zend_Service_Nirvanix_Namespace_Imfs
  */
@@ -46,9 +46,9 @@ class Zend_Service_Nirvanix_Namespace_ImfsTest extends Zend_Service_Nirvanix_Fun
         $imfs = new Zend_Service_Nirvanix_Namespace_Imfs();
         $this->assertType('Zend_Service_Nirvanix_Namespace_Base', $imfs);
     }
-    
+
     // putContents()
-    
+
     public function testPutContents()
     {
         $imfs = $this->nirvanix->getService('IMFS');
@@ -59,23 +59,23 @@ class Zend_Service_Nirvanix_Namespace_ImfsTest extends Zend_Service_Nirvanix_Fun
                 array('ResponseCode'   => '0',
                       'GetStorageNode' => '<UploadHost>node1.nirvanix.com</UploadHost>
                                            <UploadToken>bar</UploadToken>'))
-        );        
+        );
 
         $imfs->putContents('/foo', 'contents for foo');
-    }    
-    
+    }
+
     // getContents()
-    
+
     public function testGetContents()
     {
         $imfs = $this->nirvanix->getService('IMFS');
-        
+
         // response for call to GetOptimalUrlss
         $this->httpAdapter->addResponse(
            $this->makeNirvanixResponse(
                 array('ResponseCode' => '0',
                       'Download' => '<DownloadURL>http://get-it-here</DownloadURL>'))
-        );              
+        );
 
         // response for file download
         $this->httpAdapter->addResponse(
@@ -86,9 +86,9 @@ class Zend_Service_Nirvanix_Namespace_ImfsTest extends Zend_Service_Nirvanix_Fun
         $expected = $this->httpClient->getLastResponse()->getBody();
         $this->assertEquals($expected, $actual);
     }
-    
+
     // unlink()
-    
+
     public function testUnlink()
     {
         $imfs = $this->nirvanix->getService('IMFS');
@@ -96,15 +96,26 @@ class Zend_Service_Nirvanix_Namespace_ImfsTest extends Zend_Service_Nirvanix_Fun
         // response for call to DeleteFiles
         $this->httpAdapter->addResponse(
             $this->makeNirvanixResponse(array('ResponseCode' => '0'))
-        );        
+        );
 
         $imfs->unlink('foo');
     }
 
+    /**
+     * @issue ZF-6860
+     */
+    public function testDestinationPathFormatSentToServiceAsParameterUsesUnixConvention()
+    {
+        $imfs = $this->nirvanix->getService('IMFS');
+        $this->httpAdapter->addResponse(
+           $this->makeNirvanixResponse(
+                array('ResponseCode'   => '0',
+                      'GetStorageNode' => '<UploadHost>node1.nirvanix.com</UploadHost>
+                                           <UploadToken>bar</UploadToken>'))
+        );
+        // little unix cheat to force a backslash into the IFS path
+        $imfs->putContents('.\foo/bar', 'contents for foo');
+        $this->assertContains('./foo', $imfs->getHttpClient()->getLastRequest());
+    }
+
 }
-
-
-
-
-
-

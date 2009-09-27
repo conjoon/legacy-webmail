@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: BasicSqliteTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: BasicSqliteTest.php 18066 2009-09-10 18:47:53Z ralph $
  */
 
 require_once dirname(__FILE__) . '/../../../../TestHelper.php';
@@ -81,22 +81,15 @@ class Zend_Auth_Adapter_DbTable_BasicSqliteTest extends PHPUnit_Framework_TestCa
      */
     public function setUp()
     {
-        $this->_db = new Zend_Db_Adapter_Pdo_Sqlite(
-            array('dbname' => TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_DATABASE)
-            );
-
-        $sqlCreate = 'CREATE TABLE [users] ( '
-                   . '[id] INTEGER  NOT NULL PRIMARY KEY, '
-                   . '[username] VARCHAR(50) NOT NULL, '
-                   . '[password] VARCHAR(32) NULL, '
-                   . '[real_name] VARCHAR(150) NULL)';
-        $this->_db->query($sqlCreate);
-
-        $sqlInsert = 'INSERT INTO users (username, password, real_name) '
-                   . 'VALUES ("my_username", "my_password", "My Real Name")';
-        $this->_db->query($sqlInsert);
-
-        $this->_adapter = new Zend_Auth_Adapter_DbTable($this->_db, 'users', 'username', 'password');
+        $this->_setupDbAdapter();
+        $this->_setupAuthAdapter();
+    }
+    
+    public function tearDown()
+    {
+        $this->_adapter = null;
+        $this->_db->query('DROP TABLE [users]');
+        $this->_db = null;
     }
 
     /**
@@ -333,7 +326,49 @@ class Zend_Auth_Adapter_DbTable_BasicSqliteTest extends PHPUnit_Framework_TestCa
         // $this->assertEquals($e->getMessage(), 'The supplied parameters to Zend_Auth_Adapter_DbTable failed to produce a valid sql statement, please check table and column names for validity.');
     }
 
+    /**
+     * 
+     * @group ZF-3068
+     */
+    public function testDbTableAdapterUsesCaseFolding()
+    {
+        $this->tearDown();
+        $this->_setupDbAdapter(array(Zend_Db::CASE_FOLDING => Zend_Db::CASE_UPPER));
+        $this->_setupAuthAdapter();
 
+        $this->_adapter->setIdentity('my_username');
+        $this->_adapter->setCredential('my_password');
+        $this->_db->foldCase(Zend_Db::CASE_UPPER);
+        $this->_adapter->authenticate();
+    }
+    
+    protected function _setupDbAdapter($optionalParams = array())
+    {
+        $params = array('dbname' => TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_DATABASE); 
+        
+        if (!empty($optionalParams)) {
+            $params['options'] = $optionalParams;
+        }
+
+        $this->_db = new Zend_Db_Adapter_Pdo_Sqlite($params);
+
+        $sqlCreate = 'CREATE TABLE [users] ( '
+                   . '[id] INTEGER  NOT NULL PRIMARY KEY, '
+                   . '[username] VARCHAR(50) NOT NULL, '
+                   . '[password] VARCHAR(32) NULL, '
+                   . '[real_name] VARCHAR(150) NULL)';
+        $this->_db->query($sqlCreate);
+
+        $sqlInsert = 'INSERT INTO users (username, password, real_name) '
+                   . 'VALUES ("my_username", "my_password", "My Real Name")';
+        $this->_db->query($sqlInsert);
+    }
+    
+    protected function _setupAuthAdapter()
+    {
+        $this->_adapter = new Zend_Auth_Adapter_DbTable($this->_db, 'users', 'username', 'password');
+    }
+    
 
 }
 

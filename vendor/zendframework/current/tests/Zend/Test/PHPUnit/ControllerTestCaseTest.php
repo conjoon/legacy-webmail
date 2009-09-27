@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ControllerTestCaseTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ControllerTestCaseTest.php 18182 2009-09-17 17:58:11Z matthew $
  */
 
 // Call Zend_Test_PHPUnit_ControllerTestCaseTest::main() if this source file is executed directly.
@@ -717,6 +717,24 @@ class Zend_Test_PHPUnit_ControllerTestCaseTest extends PHPUnit_Framework_TestCas
         $this->assertNull($request->getQuery('mr'), 'Retrieved mr get parameter: ' . var_export($request->getQuery(), 1));
         $this->assertNull($request->getPost('foo'), 'Retrieved foo post parameter: ' . var_export($request->getPost(), 1));
         $this->assertNull($request->getCookie('bar'), 'Retrieved bar cookie parameter: ' . var_export($request->getCookie(), 1));
+    }
+
+    /**
+     * @group ZF-4511
+     */
+    public function testResetRequestShouldClearPostAndQueryParameters()
+    {
+        $this->testCase->getFrontController()->setControllerDirectory(dirname(__FILE__) . '/_files/application/controllers');
+        $this->testCase->getRequest()->setPost(array(
+            'foo' => 'bar',
+        ));
+        $this->testCase->getRequest()->setQuery(array(
+            'bar' => 'baz',
+        ));
+        $this->testCase->dispatch('/zend-test-php-unit-foo/baz');
+        $this->testCase->resetRequest();
+        $this->assertTrue(empty($_POST));
+        $this->assertTrue(empty($_GET));
     }
 }
 

@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HttpTestCaseTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: HttpTestCaseTest.php 18336 2009-09-21 14:46:28Z matthew $
  */
 
 // Call Zend_Controller_Request_HttpTestCaseTest::main() if this source file is executed directly.
@@ -286,18 +286,21 @@ class Zend_Controller_Request_HttpTestCaseTest extends PHPUnit_Framework_TestCas
         $this->assertTrue(empty($test));
     }
 
-    public function testRequestMethodShouldBeNullByDefault()
+    /**
+     * @group ZF-6162
+     */
+    public function testRequestMethodShouldBeGetByDefault()
     {
-        $this->assertNull($this->request->getMethod());
+        $this->assertEquals('GET', $this->request->getMethod());
     }
 
     public function testShouldAllowSpecifyingRequestMethod()
     {
-        $this->testRequestMethodShouldBeNullByDefault();
-        $this->request->setMethod('GET');
-        $this->assertTrue($this->request->isGet());
+        $this->testRequestMethodShouldBeGetByDefault();
         $this->request->setMethod('POST');
         $this->assertTrue($this->request->isPost());
+        $this->request->setMethod('GET');
+        $this->assertTrue($this->request->isGet());
         $this->request->setMethod('PUT');
         $this->assertTrue($this->request->isPut());
         $this->request->setMethod('OPTIONS');

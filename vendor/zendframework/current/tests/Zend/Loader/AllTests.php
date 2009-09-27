@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AllTests.php 18339 2009-09-21 15:05:25Z matthew $
  */
 
 /**
@@ -30,6 +30,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 
 require_once 'Zend/Loader/AutoloaderTest.php';
+require_once 'Zend/Loader/AutoloaderMultiVersionTest.php';
 require_once 'Zend/Loader/Autoloader/ResourceTest.php';
 require_once 'Zend/Loader/PluginLoaderTest.php';
 
@@ -53,6 +54,7 @@ class Zend_Loader_AllTests
         $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Loader');
 
         $suite->addTestSuite('Zend_Loader_AutoloaderTest');
+        $suite->addTestSuite('Zend_Loader_AutoloaderMultiVersionTest');
         $suite->addTestSuite('Zend_Loader_Autoloader_ResourceTest');
         $suite->addTestSuite('Zend_Loader_PluginLoaderTest');
 

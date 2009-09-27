@@ -17,7 +17,7 @@
  * @subpackage  View
  * @copyright   Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license     http://framework.zend.com/license/new-bsd     New BSD License
- * @version     $Id: AccordionContainerTest.php 15992 2009-06-11 08:53:04Z beberlei $
+ * @version     $Id: AccordionContainerTest.php 18045 2009-09-09 17:31:25Z beberlei $
  */
 
 require_once dirname(__FILE__)."/../../../TestHelper.php";
@@ -198,8 +198,31 @@ class ZendX_JQuery_View_AccordionContainerTest extends PHPUnit_Framework_TestCas
 
         $this->assertEquals(
             '<div id="container1">
-<a href="#">foo</a><div>foo</div>
-<a href="#">bar</a><div>bar</div>
+<h3><a href="#">foo</a></h3><div>foo</div>
+<h3><a href="#">bar</a></h3><div>bar</div>
+</div>
+',
+            $accordion
+        );
+    }
+
+    public function testAccordionSetWrongHtmlTemplate_ThrowsException()
+    {
+        $this->setExpectedException("ZendX_JQuery_View_Exception");
+
+        $this->view->getHelper('accordionContainer')->setElementHtmlTemplate("foo");
+    }
+
+    public function testAccordionSetHtmlTemplate()
+    {
+        $this->view->getHelper('accordionContainer')->setElementHtmlTemplate("<h3>%s</h3><p>%s</p>");
+
+        $this->view->accordionPane("container1", "foo", array('title' => 'foo'));
+        $accordion = $this->view->accordionContainer("container1", array(), array());
+
+        $this->assertEquals(
+            '<div id="container1">
+<h3>foo</h3><p>foo</p>
 </div>
 ',
             $accordion

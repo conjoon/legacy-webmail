@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SearchTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: SearchTest.php 17828 2009-08-26 15:04:37Z sgehrig $
  */
 
 /**
@@ -301,4 +301,34 @@ class Zend_Ldap_SearchTest extends Zend_Ldap_OnlineTestCase
         }
         $items->next();
     }
+
+    public function testUnknownCollectionClassThrowsException()
+    {
+        try {
+            $items=$this->_getLdap()->search('(objectClass=organizationalUnit)',
+                TESTS_ZEND_LDAP_WRITEABLE_SUBTREE, Zend_Ldap::SEARCH_SCOPE_SUB, array(), null,
+                'This_Class_Does_Not_Exist');
+            $this->fail('Expected exception not thrown');
+        } catch (Zend_Ldap_Exception $zle) {
+            $this->assertContains("Class 'This_Class_Does_Not_Exist' can not be found",
+                $zle->getMessage());
+        }
+    }
+
+    public function testCollectionClassNotSubclassingZendLdapCollectionThrowsException()
+    {
+        try {
+            $items=$this->_getLdap()->search('(objectClass=organizationalUnit)',
+                TESTS_ZEND_LDAP_WRITEABLE_SUBTREE, Zend_Ldap::SEARCH_SCOPE_SUB, array(), null,
+                'Zend_Ldap_SearchTest_CollectionClassNotSubclassingZendLdapCollection');
+            $this->fail('Expected exception not thrown');
+        } catch (Zend_Ldap_Exception $zle) {
+            $this->assertContains(
+                "Class 'Zend_Ldap_SearchTest_CollectionClassNotSubclassingZendLdapCollection' must subclass 'Zend_Ldap_Collection'",
+                $zle->getMessage());
+        }
+    }
 }
+
+class Zend_Ldap_SearchTest_CollectionClassNotSubclassingZendLdapCollection
+{ }

@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AllTests.php 18204 2009-09-17 22:13:16Z beberlei $
  */
 
 /**
@@ -36,6 +36,7 @@ require_once 'Zend/Application/Resource/LayoutTest.php';
 require_once 'Zend/Application/Resource/LocaleTest.php';
 require_once 'Zend/Application/Resource/ModulesTest.php';
 require_once 'Zend/Application/Resource/NavigationTest.php';
+require_once 'Zend/Application/Resource/SessionTest.php';
 require_once 'Zend/Application/Resource/ViewTest.php';
 
 /**
@@ -65,6 +66,7 @@ class Zend_Application_Resource_AllTests
         $suite->addTestSuite('Zend_Application_Resource_LocaleTest');
         $suite->addTestSuite('Zend_Application_Resource_ModulesTest');
         $suite->addTestSuite('Zend_Application_Resource_NavigationTest');
+        $suite->addTestSuite('Zend_Application_Resource_SessionTest');
         $suite->addTestSuite('Zend_Application_Resource_ViewTest');
 
         return $suite;

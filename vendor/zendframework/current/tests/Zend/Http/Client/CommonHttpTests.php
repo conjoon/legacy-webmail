@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CommonHttpTests.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: CommonHttpTests.php 17843 2009-08-27 14:40:35Z cogo $
  */
 
 // Read local configuration

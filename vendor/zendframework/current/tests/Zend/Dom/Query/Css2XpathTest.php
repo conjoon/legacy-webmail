@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Css2XpathTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: Css2XpathTest.php 18234 2009-09-18 14:06:43Z sgehrig $
  */
 
 // Call Zend_Dom_Query_Css2XpathTest::main() if this source file is executed directly.
@@ -40,7 +40,7 @@ require_once 'Zend/Dom/Query/Css2Xpath.php';
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Dom
  */
-class Zend_Dom_Query_Css2XpathTest extends PHPUnit_Framework_TestCase 
+class Zend_Dom_Query_Css2XpathTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -173,6 +173,15 @@ class Zend_Dom_Query_Css2XpathTest extends PHPUnit_Framework_TestCase
     {
         $test = Zend_Dom_Query_Css2Xpath::transform('div[foo*="bar"]');
         $this->assertEquals("//div[contains(@foo, 'bar')]", $test);
+    }
+
+    /**
+     * @group ZF-4010
+     */
+    public function testShouldAllowMatchingOfAttributeValues()
+    {
+        $test = Zend_Dom_Query_Css2Xpath::transform('tag#id @attribute');
+        $this->assertEquals("//tag[@id='id']//@attribute", $test);
     }
 }
 

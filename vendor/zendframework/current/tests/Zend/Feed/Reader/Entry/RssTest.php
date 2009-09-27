@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: RssTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: RssTest.php 18341 2009-09-21 15:15:46Z padraic $
  */
 
 require_once 'PHPUnit/Framework/TestCase.php';
@@ -1976,6 +1976,18 @@ class Zend_Feed_Reader_Entry_RssTest extends PHPUnit_Framework_TestCase
         );
         $entry = $feed->current();
         $this->assertEquals(null, $entry->getDateModified());
+    }
+
+    /**
+     * @issue ZF-7908
+     */
+    public function testGetsDateModifiedFromRss20_UnrecognisedGmtFormat()
+    {
+        $feed = Zend_Feed_Reader::importString(
+            file_get_contents($this->_feedSamplePath.'/datemodified/plain/rss20-zf-7908.xml')
+        );
+        $entry = $feed->current();
+        $this->assertEquals('Sunday 11 January 2009 09 55 59 +0000', $entry->getDateModified()->toString('EEEE dd MMMM YYYY HH mm ss ZZZ'));
     }
 
     /**

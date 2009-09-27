@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestCommon.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: TestCommon.php 17857 2009-08-27 22:01:47Z ralph $
  */
 
 require_once 'Zend/Db/TestSetup.php';
@@ -857,5 +857,15 @@ abstract class Zend_Db_Statement_TestCommon extends Zend_Db_TestSetup
         $this->assertSame($valueObject, $stmt->getAttribute(1236), "Expected object");
         $this->assertEquals($valueArray, $stmt->getAttribute(1235), "Expected array #2");
         $this->assertEquals($value, $stmt->getAttribute(1234), "Expected '$value' #2");
+    }
+    
+    /**
+     * @group ZF-7706
+     */
+    public function testStatementCanReturnDriverStatement()
+    {
+        $statement = $this->_db->query('SELECT * FROM zfproducts');
+        $this->assertNotNull($statement->getDriverStatement());
+        return $statement;
     }
 }

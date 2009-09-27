@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ResourceTest.php 17417 2009-08-06 18:06:04Z matthew $
+ * @version    $Id: ResourceTest.php 18173 2009-09-17 15:35:05Z padraic $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -388,6 +388,17 @@ class Zend_Loader_Autoloader_ResourceTest extends PHPUnit_Framework_TestCase
         $loader = array_shift($loaders);
         $this->assertSame($this->loader, $loader);
     }
+
+    /**
+     * @group ZF-7501
+     */
+    public function testAutoloaderShouldTrimResourceTypePathsForTrailingPathSeparator()
+    {
+        $this->loader->addResourceType('models', 'models/', 'Model');
+        $resources = $this->loader->getResourceTypes();
+        $this->assertEquals($this->loader->getBasePath() . '/models', $resources['models']['path']);
+    }
+
 }
 
 if (PHPUnit_MAIN_METHOD == 'Zend_Loader_Autoloader_ResourceTest::main') {

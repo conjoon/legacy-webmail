@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AttributeTest.php 17689 2009-08-20 13:33:05Z alexander $
+ * @version    $Id: AttributeTest.php 17831 2009-08-26 15:24:30Z sgehrig $
  */
 
 /**
@@ -181,7 +181,7 @@ class Zend_Ldap_AttributeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('new2', $data['uid'][2]);
     }
 
-    public function testSHAPasswordGeneration()
+    public function testPasswordSettingSHA()
     {
         $data=array();
         Zend_Ldap_Attribute::setPassword($data, 'pa$$w0rd', Zend_Ldap_Attribute::PASSWORD_HASH_SHA);
@@ -189,12 +189,29 @@ class Zend_Ldap_AttributeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('{SHA}vi3X+3ptD4ulrdErXo+3W72mRyE=', $password);
     }
 
-    public function testMD5PasswordGeneration()
+    public function testPasswordSettingMD5()
     {
         $data=array();
         Zend_Ldap_Attribute::setPassword($data, 'pa$$w0rd', Zend_Ldap_Attribute::PASSWORD_HASH_MD5);
         $password=Zend_Ldap_Attribute::getAttribute($data, 'userPassword', 0);
         $this->assertEquals('{MD5}bJuLJ96h3bhF+WqiVnxnVA==', $password);
+    }
+
+    public function testPasswordSettingUnicodePwd()
+    {
+        $data=array();
+        Zend_Ldap_Attribute::setPassword($data, 'new', Zend_Ldap_Attribute::PASSWORD_UNICODEPWD);
+        $password=Zend_Ldap_Attribute::getAttribute($data, 'unicodePwd', 0);
+        $this->assertEquals("\x22\x00\x6E\x00\x65\x00\x77\x00\x22\x00", $password);
+    }
+
+    public function testPasswordSettingCustomAttribute()
+    {
+        $data=array();
+        Zend_Ldap_Attribute::setPassword($data, 'pa$$w0rd',
+            Zend_Ldap_Attribute::PASSWORD_HASH_SHA, 'myAttribute');
+        $password=Zend_Ldap_Attribute::getAttribute($data, 'myAttribute', 0);
+        $this->assertNotNull($password);
     }
 
     public function testSetAttributeWithObject()
@@ -456,4 +473,59 @@ class Zend_Ldap_AttributeTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Zend_Ldap_Attribute::attributeHasValue($data, 'boolean1',
             array(true, false)));
     }
+
+    public function testPasswordGenerationSSHA()
+    {
+        $password = 'pa$$w0rd';
+        $ssha = Zend_Ldap_Attribute::createPassword($password, Zend_Ldap_Attribute::PASSWORD_HASH_SSHA);
+        $encoded = substr($ssha, strpos($ssha, '}'));
+        $binary  = base64_decode($encoded);
+        $this->assertEquals(24, strlen($binary));
+        $hash    = substr($binary, 0, 20);
+        $salt    = substr($binary, 20);
+        $this->assertEquals(4, strlen($salt));
+        $this->assertEquals(sha1($password . $salt, true), $hash);
+    }
+
+    public function testPasswordGenerationSHA()
+    {
+        $password = 'pa$$w0rd';
+        $sha = Zend_Ldap_Attribute::createPassword($password, Zend_Ldap_Attribute::PASSWORD_HASH_SHA);
+        $encoded = substr($sha, strpos($sha, '}'));
+        $binary  = base64_decode($encoded);
+        $this->assertEquals(20, strlen($binary));
+        $this->assertEquals(sha1($password, true), $binary);
+    }
+
+    public function testPasswordGenerationSMD5()
+    {
+        $password = 'pa$$w0rd';
+        $smd5 = Zend_Ldap_Attribute::createPassword($password, Zend_Ldap_Attribute::PASSWORD_HASH_SMD5);
+        $encoded = substr($smd5, strpos($smd5, '}'));
+        $binary  = base64_decode($encoded);
+        $this->assertEquals(20, strlen($binary));
+        $hash    = substr($binary, 0, 16);
+        $salt    = substr($binary, 16);
+        $this->assertEquals(4, strlen($salt));
+        $this->assertEquals(md5($password . $salt, true), $hash);
+    }
+
+    public function testPasswordGenerationMD5()
+    {
+        $password = 'pa$$w0rd';
+        $md5 = Zend_Ldap_Attribute::createPassword($password, Zend_Ldap_Attribute::PASSWORD_HASH_MD5);
+        $encoded = substr($md5, strpos($md5, '}'));
+        $binary  = base64_decode($encoded);
+        $this->assertEquals(16, strlen($binary));
+        $this->assertEquals(md5($password, true), $binary);
+    }
+
+    public function testPasswordGenerationUnicodePwd()
+    {
+        $password = 'new';
+        $unicodePwd = Zend_Ldap_Attribute::createPassword($password, Zend_Ldap_Attribute::PASSWORD_UNICODEPWD);
+        $this->assertEquals(10, strlen($unicodePwd));
+        $this->assertEquals("\x22\x00\x6E\x00\x65\x00\x77\x00\x22\x00", $unicodePwd);
+    }
 }
+

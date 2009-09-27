@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ApplicationTest.php 17802 2009-08-24 21:15:12Z matthew $
+ * @version    $Id: ApplicationTest.php 18282 2009-09-18 20:10:50Z matthew $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -393,6 +393,65 @@ class Zend_Application_ApplicationTest extends PHPUnit_Framework_TestCase
         );
         $options = $application->getOptions();
         $this->assertEquals(array('config', 'includePaths'), array_keys($options));
+    }
+
+    public function testPassingZfVersionAutoloaderInformationConfiguresAutoloader()
+    {
+        if (!constant('TESTS_ZEND_LOADER_AUTOLOADER_MULTIVERSION_ENABLED')) {
+            $this->markTestSkipped();
+        }
+        if (!constant('TESTS_ZEND_LOADER_AUTOLOADER_MULTIVERSION_LATEST')) {
+            $this->markTestSkipped();
+        }
+        $path   = constant('TESTS_ZEND_LOADER_AUTOLOADER_MULTIVERSION_PATH');
+        $latest = constant('TESTS_ZEND_LOADER_AUTOLOADER_MULTIVERSION_LATEST');
+
+        $application = new Zend_Application('production', array(
+            'autoloaderZfPath'    => $path,
+            'autoloaderZfVersion' => 'latest',
+        ));
+        $autoloader = $application->getAutoloader();
+        $actual     = $autoloader->getZfPath();
+        $this->assertContains($latest, $actual);
+    }
+
+    /**
+     * @group ZF-7742
+     */
+    public function testHasOptionShouldTreatOptionKeysAsCaseInsensitive()
+    {
+        $application = new Zend_Application('production', array(
+            'fooBar' => 'baz',
+        ));
+        $this->assertTrue($application->hasOption('FooBar'));
+    }
+
+    /**
+     * @group ZF-7742
+     */
+    public function testGetOptionShouldTreatOptionKeysAsCaseInsensitive()
+    {
+        $application = new Zend_Application('production', array(
+            'fooBar' => 'baz',
+        ));
+        $this->assertEquals('baz', $application->getOption('FooBar'));
+    }
+
+    /**
+     * @group ZF-6618
+     */
+    public function testCanExecuteBoostrapResourceViaApplicationInstanceBootstrapMethod() {
+        $application = new Zend_Application('testing', array(
+            'bootstrap' => array(
+                'path' => dirname(__FILE__) . '/_files/ZfAppBootstrap.php',
+                'class' => 'ZfAppBootstrap'
+                )
+            )
+        );
+        $application->bootstrap('foo');
+
+        $this->assertEquals(1, $application->getBootstrap()->fooExecuted);
+        $this->assertEquals(0, $application->getBootstrap()->barExecuted);
     }
 }
 

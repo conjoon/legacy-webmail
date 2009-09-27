@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ArrayAccessTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ArrayAccessTest.php 18184 2009-09-17 18:26:40Z padraic $
  */
 
 /**
@@ -91,6 +91,16 @@ class Zend_Feed_ArrayAccessTest extends PHPUnit_Framework_TestCase
         unset($nsfeed['version']);
         $this->assertFalse(isset($nsfeed['version']), 'Version should be unset');
         $this->assertEquals('', $nsfeed['version'], 'Version should be equal to the empty string');
+    }
+
+    /**
+     * @issue ZF-5354
+     */
+    public function testGetsLinkWithEmptyOrMissingRelAsAlternateRel()
+    {
+        $feed = Zend_Feed::importFile(dirname(__FILE__) . '/_files/AtomHOnline.xml');
+        $entry = $feed->current();
+        $this->assertEquals('http://www.h-online.com/security/Google-acquires-reCAPTCHA--/news/114266/from/rss', $entry->link('alternate'));
     }
 
 }

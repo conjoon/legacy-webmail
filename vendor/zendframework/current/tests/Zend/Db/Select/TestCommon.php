@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestCommon.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: TestCommon.php 18347 2009-09-21 16:51:34Z ralph $
  */
 
 
@@ -1227,6 +1227,86 @@ abstract class Zend_Db_Select_TestCommon extends Zend_Db_TestSetup
         $this->assertEquals(3, count($result),
             'Expected count of result set to be 2');
         $this->assertEquals(1, $result[0]['product_id']);
+    }
+
+    protected function _selectOrderByPosition()
+    {
+        $select = $this->_db->select()
+            ->from('zfproducts')
+            ->order('2');
+        return $select;
+    }
+    
+    public function testSelectOrderByPosition()
+    {
+        $select = $this->_selectOrderByPosition();
+
+        $stmt = $this->_db->query($select);
+        $result = $stmt->fetchAll();
+
+        $this->assertEquals(2, $result[0]['product_id']);
+        $this->assertEquals(3, $result[1]['product_id']);
+        $this->assertEquals(1, $result[2]['product_id']);
+    }
+
+    protected function _selectOrderByPositionAsc()
+    {
+        $select = $this->_db->select()
+            ->from('zfproducts')
+            ->order('2 ASC');
+        return $select;
+    }
+    
+    public function testSelectOrderByPositionAsc()
+    {
+        $select = $this->_selectOrderByPositionAsc();
+
+        $stmt = $this->_db->query($select);
+        $result = $stmt->fetchAll();
+
+        $this->assertEquals(2, $result[0]['product_id']);
+        $this->assertEquals(3, $result[1]['product_id']);
+        $this->assertEquals(1, $result[2]['product_id']);
+    }
+
+    protected function _selectOrderByPositionDesc()
+    {
+        $select = $this->_db->select()
+            ->from('zfproducts')
+            ->order('2 DESC');
+        return $select;
+    }
+    
+    public function testSelectOrderByPositionDesc()
+    {
+        $select = $this->_selectOrderByPositionDesc();
+
+        $stmt = $this->_db->query($select);
+        $result = $stmt->fetchAll();
+
+        $this->assertEquals(1, $result[0]['product_id']);
+        $this->assertEquals(3, $result[1]['product_id']);
+        $this->assertEquals(2, $result[2]['product_id']);
+    }
+
+    protected function _selectOrderByMultiplePositions()
+    {
+        $select = $this->_db->select()
+            ->from('zfproducts')
+            ->order(array('2 DESC', '1 DESC'));
+        return $select;
+    }
+    
+    public function testSelectOrderByMultiplePositions()
+    {
+        $select = $this->_selectOrderByMultiplePositions();
+
+        $stmt = $this->_db->query($select);
+        $result = $stmt->fetchAll();
+
+        $this->assertEquals(1, $result[0]['product_id']);
+        $this->assertEquals(3, $result[1]['product_id']);
+        $this->assertEquals(2, $result[2]['product_id']);
     }
 
     protected function _selectOrderByDesc()

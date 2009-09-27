@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version $Id: ValueTest.php 17786 2009-08-23 22:26:33Z lars $
+ * @version $Id: ValueTest.php 17924 2009-08-31 14:43:12Z lars $
  */
 
 // Call Zend_XmlRpc_ValueTest::main() if this source file is executed directly.
@@ -187,6 +187,21 @@ class Zend_XmlRpc_ValueTest extends PHPUnit_Framework_TestCase
         $this->assertSame($native, $val->getValue());
         $this->assertType('DomElement', $val->getAsDOM());
         $this->assertEquals($this->wrapXml($xml), $val->saveXML());
+    }
+
+    /**
+     * @group ZF-7712
+     */
+    public function testMarshallingDoubleWithHigherPrecisionFromNative()
+    {
+        if (ini_get('precision') < 7) {
+            $this->markTestSkipped('precision is too low');
+        }
+
+        $native = 0.1234567;
+        $value = Zend_XmlRpc_Value::getXmlRpcValue($native, Zend_XmlRpc_Value::XMLRPC_TYPE_DOUBLE);
+        $this->assertXmlRpcType('double', $value);
+        $this->assertSame($native, $value->getValue());
     }
 
     // String

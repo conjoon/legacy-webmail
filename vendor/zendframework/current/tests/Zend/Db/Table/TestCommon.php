@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestCommon.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: TestCommon.php 17818 2009-08-25 23:11:06Z ralph $
  */
 
 
@@ -627,6 +627,31 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         }
     }
 
+    /**
+     * @group ZF-3349
+     */
+    public function testTableFindMultipleRowsWithKeys()
+    {
+        $table = $this->_table['products'];
+        $rowset = $table->find(array(0 => 1, 1 => 2, 99 => 3));
+        $this->assertType('Zend_Db_Table_Rowset_Abstract', $rowset,
+            'Expecting object of type Zend_Db_Table_Rowset_Abstract, got '.get_class($rowset));
+        $this->assertEquals(3, count($rowset));
+    }
+    
+    /**
+     * 
+     * @group ZF-5775
+     */
+    public function testTableFindWithEmptyArray()
+    {
+        $table = $this->_table['products'];
+        $rowset = $table->find(array());
+        $this->assertType('Zend_Db_Table_Rowset_Abstract', $rowset,
+            'Expecting object of type Zend_Db_Table_Rowset_Abstract, got '.get_class($rowset));
+        $this->assertEquals(0, count($rowset));
+    }
+    
     public function testTableInsert()
     {
         $table = $this->_table['bugs'];

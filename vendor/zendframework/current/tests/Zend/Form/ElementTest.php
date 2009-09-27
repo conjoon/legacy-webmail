@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ElementTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: ElementTest.php 18190 2009-09-17 20:29:52Z matthew $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -1976,6 +1976,15 @@ class Zend_Form_ElementTest extends PHPUnit_Framework_TestCase
         $html = $this->element->bogusMethodCall();
     }
 
+    /**
+     * @group ZF-5150
+     */
+    public function testMarkingAsErrorShouldCauseIsErrorToReturnFalse()
+    {
+        $this->element->setValue('foo');
+        $this->element->markAsError();
+        $this->assertFalse($this->element->isValid('foo'));
+    }
 
     /**
      * Used by test methods susceptible to ZF-2794, marks a test as incomplete

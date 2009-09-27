@@ -18,7 +18,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17525 2009-08-10 16:29:26Z alexander $
+ * @version    $Id: AllTests.php 18091 2009-09-12 11:44:39Z matthew $
  */
 
 /**
@@ -33,6 +33,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 require_once 'Zend/Acl/AclTest.php';
 require_once 'Zend/Amf/AllTests.php';
 require_once 'Zend/Application/AllTests.php';
+require_once 'Zend/AuthTest.php';
 require_once 'Zend/Auth/AllTests.php';
 require_once 'Zend/Cache/AllTests.php';
 require_once 'Zend/Captcha/AllTests.php';
@@ -162,6 +163,7 @@ class Zend_AllTests
         $suite->addTestSuite('Zend_Acl_AclTest');
         $suite->addTest(Zend_Amf_AllTests::suite());
         $suite->addTest(Zend_Application_AllTests::suite());
+        $suite->addTestSuite('Zend_AuthTest');
         $suite->addTest(Zend_Auth_AllTests::suite());
         $suite->addTest(Zend_Cache_AllTests::suite());
         $suite->addTest(Zend_Captcha_AllTests::suite());

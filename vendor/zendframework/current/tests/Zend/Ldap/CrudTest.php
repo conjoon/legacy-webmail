@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CrudTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: CrudTest.php 18250 2009-09-18 15:53:49Z sgehrig $
  */
 
 /**
@@ -212,6 +212,35 @@ class Zend_Ldap_CrudTest extends Zend_Ldap_OnlineTestCase
             'a7' => array(),
             'a8' => array(),
             'a9' => array('account', 'TestCreated'));
+        $this->assertEquals($expected, $data);
+    }
+
+    /**
+     * @group ZF-7888
+     */
+    public function testZeroValueMakesItThroughSanitationProcess()
+    {
+        $data = array(
+            'string'       => '0',
+            'integer'      => 0,
+            'stringArray'  => array('0'),
+            'integerArray' => array(0),
+            'null'         => null,
+            'empty'        => '',
+            'nullArray'    => array(null),
+            'emptyArray'   => array(''),
+        );
+        Zend_Ldap::prepareLdapEntryArray($data);
+        $expected=array(
+            'string'       => array('0'),
+            'integer'      => array('0'),
+            'stringarray'  => array('0'),
+            'integerarray' => array('0'),
+            'null'         => array(),
+            'empty'        => array(),
+            'nullarray'    => array(),
+            'emptyarray'   => array()
+        );
         $this->assertEquals($expected, $data);
     }
 

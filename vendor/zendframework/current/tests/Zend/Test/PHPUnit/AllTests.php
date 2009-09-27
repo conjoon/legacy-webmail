@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AllTests.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: AllTests.php 18234 2009-09-18 14:06:43Z sgehrig $
  */
 
 /**
@@ -31,6 +31,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 
 require_once 'Zend/Test/PHPUnit/ControllerTestCaseTest.php';
 require_once 'Zend/Test/PHPUnit/Db/AllTests.php';
+require_once 'Zend/Test/PHPUnit/Constraint/AllTests.php';
 
 /**
  * @category   Zend
@@ -54,6 +55,7 @@ class Zend_Test_PHPUnit_AllTests
 
         $suite->addTestSuite('Zend_Test_PHPUnit_ControllerTestCaseTest');
         $suite->addTest(Zend_Test_PHPUnit_Db_AllTests::suite());
+        $suite->addTest(Zend_Test_PHPUnit_Constraint_AllTests::suite());
 
         return $suite;
     }

@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: FormTest.php 18190 2009-09-17 20:29:52Z matthew $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -3725,6 +3725,15 @@ class Zend_Form_FormTest extends PHPUnit_Framework_TestCase
             $actual[] = get_class($decorator);
         }
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @group ZF-5150
+     */
+    public function testIsValidShouldFailIfAddErrorHasBeenCalled()
+    {
+        $this->form->addError('Error');
+        $this->assertFalse($this->form->isValid(array()));
     }
 
     /**

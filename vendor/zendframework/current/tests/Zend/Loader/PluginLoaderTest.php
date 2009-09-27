@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PluginLoaderTest.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: PluginLoaderTest.php 18207 2009-09-17 22:29:50Z beberlei $
  */
 
 // Call Zend_Loader_PluginLoaderTest::main() if this source file is executed directly.
@@ -111,6 +111,17 @@ class Zend_Loader_PluginLoaderTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(array_key_exists('Zend_Loader_', $paths));
         $this->assertEquals(1, count($paths['Zend_View_']));
         $this->assertEquals(2, count($paths['Zend_Loader_']));
+    }
+
+    public function testAddPrefixPathMultipleTimes()
+    {
+        $loader = new Zend_Loader_PluginLoader();
+        $loader->addPrefixPath('Zend_Loader', $this->libPath . '/Zend/Loader')
+               ->addPrefixPath('Zend_Loader', $this->libPath . '/Zend/Loader');
+        $paths = $loader->getPaths();
+
+        $this->assertType('array', $paths);
+        $this->assertEquals(1, count($paths['Zend_Loader_']));
     }
 
     public function testAddPrefixPathStatically()

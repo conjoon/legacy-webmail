@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TestCommon.php 17363 2009-08-03 07:40:18Z bkarwin $
+ * @version    $Id: TestCommon.php 18200 2009-09-17 21:25:37Z beberlei $
  */
 
 
@@ -251,6 +251,16 @@ abstract class Zend_Db_Table_Select_TestCommon extends Zend_Db_Select_TestCommon
         $this->assertContains('zfaccounts', $select4Text);
         $this->assertContains('tableA', $select4Text);
         $this->assertContains('tableB', $select4Text);
+    }
+
+    public function testAssembleDbTableUnionSelect()
+    {
+        $table = $this->_getSelectTable('accounts');
+        $select1 = $table->select();
+        $select2 = $table->select();
+
+        $selectUnion = $table->select()->union(array($select1, $select2));
+        $selectUnionSql = $selectUnion->assemble();
     }
 
     // ZF-3239

@@ -17,7 +17,7 @@
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: BootstrapAbstractTest.php 17802 2009-08-24 21:15:12Z matthew $
+ * @version    $Id: BootstrapAbstractTest.php 17825 2009-08-26 12:50:42Z matthew $
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -38,6 +38,26 @@ require_once 'Zend/Loader/Autoloader.php';
  * Zend_Application_Resource_ResourceAbstract
  */
 require_once 'Zend/Application/Resource/ResourceAbstract.php';
+
+/**
+ * Zend_Application_Bootstrap_Bootstrapper
+ */
+require_once 'Zend/Application/Bootstrap/Bootstrapper.php';
+
+/**
+ * Zend_Application_Bootstrap_ResourceBootstrapper
+ */
+require_once 'Zend/Application/Bootstrap/ResourceBootstrapper.php';
+
+/**
+ * Zend_Application_Bootstrap_BootstrapAbstract
+ */
+require_once 'Zend/Application/Bootstrap/BootstrapAbstract.php';
+
+/**
+ * Zend_Application_Bootstrap_Bootstrap
+ */
+require_once 'Zend/Application/Bootstrap/Bootstrap.php';
 
 /**
  * @category   Zend
@@ -664,6 +684,27 @@ class Zend_Application_Bootstrap_BootstrapAbstractTest extends PHPUnit_Framework
         $bootstrap = new Zend_Application_Bootstrap_Bootstrap($this->application);
         $bootstrap->bootstrap();
     }
+
+    /**
+     * @group ZF-7690
+     */
+    public function testCallingSetOptionsMultipleTimesShouldUpdateOptionKeys()
+    {
+        $this->application->setOptions(array(
+            'resources' => array(
+                'layout' => array(),
+            ),
+        ));
+        $bootstrap = new Zend_Application_Bootstrap_BootstrapAbstractTest_OptionKeys($this->application);
+        $bootstrap->setOptions(array(
+            'pluginPaths' => array(
+                'Foo' => dirname(__FILE__),
+            ),
+        ));
+        $expected = array('resources', 'pluginpaths');
+        $actual   = $bootstrap->getOptionKeys();
+        $this->assertEquals($expected, $actual);
+    }
 }
 
 class Zend_Application_Bootstrap_BootstrapAbstractTest_View
@@ -711,6 +752,15 @@ class Zend_Application_Bootstrap_BootstrapAbstractTest_Foo
     public function init()
     {
         return $this;
+    }
+}
+
+class Zend_Application_Bootstrap_BootstrapAbstractTest_OptionKeys
+    extends Zend_Application_Bootstrap_Bootstrap
+{
+    public function getOptionKeys()
+    {
+        return $this->_optionKeys;
     }
 }
 

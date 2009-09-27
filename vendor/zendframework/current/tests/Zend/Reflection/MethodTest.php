@@ -71,19 +71,23 @@ class Zend_Reflection_MethodTest extends PHPUnit_Framework_TestCase
     {
         $reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass5', 'doSomething');
         
-        $this->assertEquals($reflectionMethod->getStartLine(), 105);
-        $this->assertEquals($reflectionMethod->getStartLine(true), 89);
+        $this->assertEquals($reflectionMethod->getStartLine(), 106);
+        $this->assertEquals($reflectionMethod->getStartLine(true), 90);
     }
     
     public function testGetBodyReturnsCorrectBody()
     {
-        $reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass5', 'doSomething');
-        $this->assertEquals("        return 'mixedValue';\n", $reflectionMethod->getBody());
+        $body = '        //we need a multi-line method body.
+        $assigned = 1;
+        $alsoAssigined = 2;
+        return \'mixedValue\';';
+        $reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass6', 'doSomething');
+        $this->assertEquals($body, $reflectionMethod->getBody());
     }
     
     public function testGetContentsReturnsCorrectContent()
     {
-        $reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass5', 'doSomething');
+		$reflectionMethod = new Zend_Reflection_Method('Zend_Reflection_TestSampleClass5', 'doSomething');
         $this->assertEquals("    {\n\n        return 'mixedValue';\n\n    }\n", $reflectionMethod->getContents(false));
     }
     
