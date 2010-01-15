@@ -1,1 +1,0 @@
-This is the directory for the configuration cache. Make sure it's writeable by the webserver/PHP.
