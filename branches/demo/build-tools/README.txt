@@ -1,0 +1,12 @@
+This folder contains scripts for building deployable versions of the conjoon
+project.
+
+csscompressor.php
+=================
+cli script for compressing all css files used by conjoon (except for vendor
+css files) into one file named "conjoon-all.css". All paths used by the script
+depend on the directory layout as defined by the repository. Make sure you run
+this script out of its current folder.
+Note:
+csscompressor should not be used anymore since 0.1a2 in favor of using the build_css.xml
+buildfile.
