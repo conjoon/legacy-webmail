@@ -1,0 +1,331 @@
+;<?php
+;/**
+; * conjoon
+; * (c) 2002-2010 siteartwork.de/conjoon.org
+; * licensing@conjoon.org
+; *
+; * $Author$
+; * $Id$
+; * $Date$
+; * $Revision$
+; * $LastChangedDate$
+; * $LastChangedBy$
+; * $URL$
+; */
+; ?>
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                             README                                        ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; This is the template for the application configuration file for the conjoon
+; software.
+; You should set the variables to the values that suits your installation and
+; then rename this file to "config.ini.php".
+;
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                         SECURITY WARNING                                  ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; Do not remove the line below, or otherwise you risc exposing your application
+; settings (i.e. passwords, db settings etc.). You can, however, remove everything
+; between line 1 and this line.
+;
+; ------- DO NOT REMOVE THE FOLLOWING LINE ------
+;<?php die('forbidden');?>
+; --------- DO NOT REMOVE THE LINE ABOVE --------
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;;   ENVIRONMENT    ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+[environment]
+
+; if your hoster does not allow you to configure php's include path, set this to
+; the path where the "lib" folder resides.
+; Notice: since the bootstrapper has to re-set the include path on every request,
+; it is better to hardcode this value in your webserver's config. We strongly advise
+; to set the include path in the webserver's config, as it will speed things up.
+; Example:
+; UNIX: "/path1:/path2"
+; Windows: "\path1;\path2"
+; Notice:
+; If you use this setting, make sure you quote the value if it contains a semicolon
+; when specifying more than one directory, otherwise conjoon will interpret
+; anything that follows the semicolon as a comment.
+include_path = {INCLUDE_PATH}
+
+; set this to the path where the "application" folder can be found.
+; make sure the containing folders are readable and writable by the webserver.
+; the path may be relative to the folder where the index.pho resides in.
+application_path = {APPLICATION_PATH}
+
+; set this to the path under which conjoon is available on your host.
+; Example: If you configured your webserver so that conjoon is available
+; under http://my.domain.com/, the value must be set to "/". If you configured
+; your webserver so that the application is available under http://my.domain.com/app/,
+; the value must be set to "app".
+base_url = {BASE_URL}
+
+; The value should be set to anything that provides more information about the
+; context conjoon is installed in. The value is not needed for any evaluation tasks,
+; but will appear at some places in the software, such as the login screen.
+; If you are running the software from an USB stick, the value for this property could
+; be somewhat like "USB installation"
+edition = {EDITION}
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;;   APPLICATION    ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+[application]
+; Since V0.1RC1, conjoon is able to detect if the Ext frontend has merged
+; multiple requests into one, split them up and process them as if each
+; was a single request made to the webserver.
+; Set this to "0", if conjoon should always use the specific plugins that
+; process requests and look the ext.direct.request.parameter up for requests made
+; by the Ext.direct API, set it to "1" so that conjoon tries to decide
+; first if it should use the needed plugins for a request. Setting to "1"
+; might give you a slight performance increase.
+ext.direct.request.autoLookup = 1
+
+; This is the name of the parameter that gets send by the Ext framework to the
+; application which holds data send by the Ext.direct API. If you change this,
+; make sure you apply the changes accordingly in the client code.
+ext.direct.request.parameter = extDirectData
+
+; This property defines whether an exception that occured while processing
+; the initial request for a merged Ext.Direct-request should be copied for
+; each request that was merged and send back to the client, or if a single
+; exception should be thrown. For conjoon V0.1RC1 and late rversions,
+; this should be set to "0"
+ext.direct.request.singleException = 0
+
+;@REMOVE@;
+; This property will tell if an additional controller plugin should be loaded
+; which checks if an outgoing internet connection is available from the server
+; you are running conjoon on. This is mainly for debugging purposes, i.e.
+; local development from locations where an internet connection is most likely
+; not available, so you can safely set this option to "0" for live systems.
+connection_check.enabled = 1
+connection_check.timeout = 1
+connection_check.ip = 81.169.145.192
+connection_check.port = 80
+;@REMOVE@;
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;;   DATABASE       ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+[database]
+; set this value to the adapter conjoon should use for db connections.
+; There is currently only support for pdo_mysql, so you should not change
+; this value.
+adapter = {DATABASE.ADAPTER}
+
+; database host
+params.host = {DATABASE.HOST}
+
+; port your database server listens to. For mysql, this should default to
+; "3306"
+params.port = {DATABASE.PORT}
+
+; username for db connections
+params.username = {DATABASE.USER}
+
+; password for db connections
+params.password = {DATABASE.PASSWORD}
+
+; the name of the database used
+params.dbname = {DATABASE.DATABASE}
+
+; the table prefix used for your installation. The value specified here should be
+; prepended to your tables
+table.prefix = {DATABASE.TABLE.PREFIX}
+
+; max_allowed_packet denotes the maximum size of a packet that can be stored
+; in a database using the configured connection. If you have worked with
+; MySQL before, this value should be familiar to you. However, it's used for
+; all db adapters: Provide a value that is less than or equal to the
+; "max_allowed_packet" variable of your MySQL server configuration (or any configuration
+; setting of the database server you are using that corresponds to this variable's
+; functionality). The value has to be provided in bytes.
+; If left empty, conjoon will look up this value from the database configuration by itself.
+; Setting this value is mainly important for the email module of conjoon, as emails vary in
+; size and any email that is larger than max_allowed_packet cannot and wil not be stored
+; into the database
+variables.max_allowed_packet = {DATABASE_MAX_ALLOWED_PACKET}
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;;      CACHE       ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+[cache]
+
+; The following settings for caching data is supported in conjoon since V0.1RC1
+;
+; [frontend]
+;   frontend_type:
+;     set this to any valid Zend_Cache_Frontend-type. Note, that if you change
+;     the type, you have to adjust the frontend-settings according to the new
+;     frontend type. By default, conjoon is optimized to use the
+;     Zend_Cache_Frontend_Core-class
+;
+;   automatic_cleaning_factor:
+;     Disable / Tune the automatic cleaning process (garbage collector): 0 means
+;     no automatic cache cleaning, 1 means systematic cache cleaning and x > 1 means
+;     automatic random cleaning 1 times in x write operations.
+;
+;   lifetime:
+;     denotes the valid lifetime of a cached object.
+;
+;   caching:
+;     Tells whether caching is active or inactive. Set this to 0, and caching
+;     won't happen
+;
+;   automatic_serialization:
+;     Whether to use automatic serialization of email messages when caching
+;
+;   ignore_user_abort:
+;     if set to 1, the core will set the ignore_user_abort PHP flag inside the
+;     save() method to avoid cache corruptions in some cases
+;
+; [backend]
+;   backend_type
+;     set this to any valid Zend_Cache_Backend-type. Note, that if you change
+;     the type, you have to adjust the backend-settings according to the new
+;     backend type. By default, conjoon is optimized to use the
+;     Zend_Cache_Backend_File-class
+;
+;   cache_dir
+;     Directory where to store cache files, if backend_type is set to "file".
+;     If the name does not start with a slash or a drive letter (i.e. F:/), conjoon
+;     asumes that the path is relative to the application path (see
+;     environment.application_path)
+;
+;   hashed_directory_level
+;     Hashed directory structure level : 0 means "no hashed directory structure", 1 means
+;     "one level of directory", 2 means "two levels"... This option can speed up the cache
+;     only when you have many thousands of cache files. Only specific benchs can help you to
+;     choose the perfect value for you. Maybe, 1 or 2 is a good start.
+
+;;;;;;;;;;;;;;;;;;;
+;;   DEFAULTS    ;;
+;;;;;;;;;;;;;;;;;;;
+
+; you can specify the following default options here:
+;
+; frontend_type
+; frontend.lifetime
+; frontend.automatic_cleaning_factor
+; frontend.automatic_serialization
+; frontend.ignore_user_abort
+; backend_type
+; backend.hashed_directory_level
+;
+; Those values can be overriden for each cache block.
+;
+; Example:
+; use a default caching lifetime of 72000 for all cache blocks:
+; default.frontend.lifetime = 72000
+; ... but use a lifetime of 31536000 for email.message:
+; email.message.frontend.lifetime = 31536000
+; The default of 72000 will then be ignored.
+; Note:
+; When setting default.caching = 0, caching will be disabled for
+; the application and no cache blocks will be written into the configuration.
+; If you want to disable caching for individual cache blocks,
+; set default.caching to 1 and disable caching for the cache block indivdually.
+;
+; Cache blocks have namespaces. They denote the module and the functionality they
+; stand for: email.message stands or module "email", function "message". namespaces may
+; have only two levels, followed by their config property
+;
+
+default.caching = {CACHE.DEFAULT.CACHING}
+default.frontend_type = core
+; 1 day default lifetime
+default.frontend.lifetime = 86400
+default.frontend.automatic_cleaning_factor = 10
+default.frontend.automatic_serialization = 1
+default.frontend.ignore_user_abort = 1
+default.backend_type = file
+default.backend.hashed_directory_level = 1
+
+
+;;;;;;;;;;;;;;;;;;;;
+;;  CACHE EMAILS  ;;
+;;;;;;;;;;;;;;;;;;;;
+; namespace "email.message" for cached email messages
+email.message.caching = {CACHE.EMAIL.MESSAGE.CACHING}
+email.message.frontend.lifetime = 31536000
+email.message.backend.cache_dir = {CACHE.EMAIL.MESSAGE.BACKEND.CACHE_DIR}
+
+; namespace "email.accounts" for cached account lists
+email.accounts.caching = {CACHE.EMAIL.ACCOUNTS.CACHING}
+email.accounts.frontend.lifetime = 31536000
+email.accounts.backend.cache_dir = {CACHE.EMAIL.ACCOUNTS.BACKEND.CACHE_DIR}
+
+
+;;;;;;;;;;;;;;;;;;;
+;;  CACHE FEEDS  ;;
+;;;;;;;;;;;;;;;;;;;
+
+; namespace "feed.item" for cached feed items (feed entry)
+feed.item.caching = {CACHE.FEED.ITEM.CACHING}
+feed.item.frontend.lifetime = 31536000
+feed.item.backend.cache_dir = {CACHE.FEED.ITEM.BACKEND.CACHE_DIR}
+
+; namespace "feed.item_list" for cached feed item lists
+feed.item_list.caching = {CACHE.FEED.ITEM_LIST.CACHING}
+feed.item_list.backend.cache_dir = {CACHE.FEED.ITEM_LIST.BACKEND.CACHE_DIR}
+
+; namespace "feed.reader" for Zend_Feed_Reader
+feed.reader.caching = {CACHE.FEED.READER.CACHING}
+feed.reader.backend.cache_dir = {CACHE.FEED.READER.BACKEND.CACHE_DIR}
+
+; namespace "feed.account" for cached feed account
+feed.account.caching = {CACHE.FEED.ACCOUNT.CACHING}
+feed.account.frontend.lifetime = 31536000
+feed.account.backend.cache_dir = {CACHE.FEED.ACCOUNT.BACKEND.CACHE_DIR}
+
+; namespace "feed.account_list" for cached feed account lists
+feed.account_list.caching = {CACHE.FEED.ACCOUNT_LIST.CACHING}
+feed.account_list.frontend.lifetime = 31536000
+feed.account_list.backend.cache_dir = {CACHE.FEED.ACCOUNT_LIST.BACKEND.CACHE_DIR}
+
+;;;;;;;;;;;;;;;;
+;; CACHE DB   ;;
+;;;;;;;;;;;;;;;;
+
+; namespace "db.metadata" for cached db metadata. This cache has
+; to be cleaned by hand if the db structure changes
+db.metadata.caching = {CACHE.DB.METADATA.CACHING}
+db.metadata.frontend.lifetime = 31536000
+db.metadata.backend.cache_dir = {CACHE.DB.METADATA.BACKEND.CACHE_DIR}
+db.metadata.backend.hashed_directory_level = 0
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;;  TWITTER CACHE  ;;
+;;;;;;;;;;;;;;;;;;;;;
+
+; namespace "twitter.accounts" for cached twitter account lists.
+twitter.accounts.caching = {CACHE.TWITTER.ACCOUNTS.CACHING}
+twitter.accounts.backend.cache_dir = {CACHE.TWITTER.ACCOUNTS.BACKEND.CACHE_DIR}
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;;      LOGGING     ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;
+[log]
+
+; set this to 0 to disable logging
+enabled = 0
+
+; chose a writer for logging. right now, firebug is the only
+; valid option - it will send log messages to the firebug console.
+; if using this writer, make sure you are using FF and FB
+writer = firebug
