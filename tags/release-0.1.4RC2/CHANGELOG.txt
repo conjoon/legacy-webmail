@@ -1,0 +1,250 @@
+﻿2011-31-05 0.1.4RC2
+===================
+Notable changes:
+
+[Email module - client]
+ - fixed an issue where an email would not be properly referenced when
+preview window was dragged & droppped into the content panel, then any
+operation on this panel would have been invoked (reply, reply all, forward)
+due to the fact that the EditorManager would only accept a record of type
+EmailItemRecord for creating an editor instance, but not EmailRecord (closes #381)
+(thanks to larissa84)
+
+[Feeds module - backend]
+ - fixed an issue where the "author" field of a feed entry would not be
+stored properly in the database, thus, showing the value "Array" as the author
+name: adjusted backend code to inspect the return value of "getAuthor()" of the
+feed entry object and apply found values properly (closes #382)
+(reported by e-mike)
+
+[Twitter module - client]
+ - fixed an issue where replies would not be linked properly due to wrong
+data type for specific fields; changed those fields to type "string" to make
+sure that containing ids can be rendered properly (closes #376)
+
+[Workbench]
+ - fixed an issue where the "startup" sound would not play as soon as
+the workbench is in "ready" state, even if the registry tells that system
+sounds are enabled: resolved by adding a "onload" listener to the
+SystemSoundManager that would call attached listeners to tell that it's ready
+to be used; previously it was assumed that the driver is ready to be used as
+soon as the workbench is available (closes #379)
+
+[General UI]
+ - fixed an issue where some regions of a container would not be
+clickable if it was masked previously by a feed/email preview, and this
+preview would have been hidden using it's animation function: adjusted
+callback so the anim element's container gets hidden, too (closes #378)
+
+[Datastore - mysql]
+ - fixed an issue where two different indexes would target the same
+column: changed index "user_id" to operate on column "user_id" (closes #377)
+
+
+2011-13-05 0.1.4RC1
+===================
+Notable changes:
+
+[Twitter module - client]
+ - changed ui of both Wizard/Options panel to consider Twitter's new oauth
+authorization process
+
+[Twitter module - backend]
+ - changed backend implementation to use Twitter's Oauth process now. Changed
+structure of datastorage accordingly so that no Twitter related passwords will
+be stored there anymore
+fixed a showstopper which would prevent a successful installation when
+check for prerequisites fails and users would not be able to page through the
+install process(reported by odomera)
+ - fixed some issues related to deprecated parameters Zend Framework would
+still use when communicating with the Twitter API (see ZF-9215)
+ - fixed types of fields which would still be set to "int"/"float" whereas
+"string" should be used now
+
+[General backend]
+ - fixed the override of Conjoon_Config_Array::_loadIniFile() which would
+trigger a notice if E_STRICT error reporting is activated
+
+[Vendor]
+ - Updated Zend Framework to version 1.11.6
+
+
+2010-04-08 0.1.3.2
+==================
+Notable changes:
+
+[install wizard]
+ - fixed a showstopper which would prevent a successful installation when
+check for prerequisites fails and users would not be able to page through the
+install process(reported by odomera)
+
+
+2010-04-07 0.1.3.1
+==================
+Notable changes:
+
+[Datastore - mysql]
+ - fixed a problem with the sql statements where missing backticks would
+prevent the datastructure to be updated properly
+
+
+2010-04-07 0.1.3
+================
+Notable changes:
+
+[Workbench]
+ - enhanced "Help" menu, added dialogs for submitting suggestions/bug reports
+
+[Datastore - mysql]
+ - fixed an issue with datastructure for attachment table, since some
+attachments could not be saved due to restrictions of content length for "BLOB"
+fields - changed field "content" in "attachment" table from "BLOB" to "LONGBLOB"
+
+[Email module - client]
+ - added DownloadManager for queueing downloads in conjoon
+ - revamped DefaultViewRenderer for displaying email messages to show a
+resizable and scrollable attachment list
+
+[Email module - backend]
+ - fixed an security issue where models would not check for proper folder
+permissions before sending an email message / item to the client
+ - added functionality for downloading attachments
+
+
+2010-03-29 0.1.2
+================
+Notable changes:
+
+[install wizard]
+ - fixed an issue related to creating directories during the installation
+process on unix systems
+ - fixed an issue where the "edition" configuration property would not be
+properly re-used while updating conjoon; fixed an issue where "apache" would
+not be properly recognized during install if the server would not expose its
+version number
+ - updated wording for the prerequisite check for proposing setting group/owner
+of the install folder/parent folder of the installation
+ - added check for moving files/folders within install dir to make sure
+files/folders are accessible through the given permissions
+ - user will now be forced to properly set file permissions of the "install"
+and all its sub folders during install to prevent fail of copying/moving
+folders
+
+[cudgets library]
+ - fixed an issue with the cudgets library that would attach a cache buster
+manually to each url on Ext.Ajax' event "beforerequest", instead of using the
+"disableCaching" option directly; this would urls cause to be generated with two
+cache busters (closes #353)
+
+[Feeds module - client]
+ - removed a condition in FeedGrid.js that would check if a click in a cell
+happened while holding down shift/ctrl key, which would prevent the Feed Preview
+to properly hide any shown Feed Preview Window (closes #346)
+
+[Email module - client]
+ - fixed an issue where fragments of the
+EmailPreview Window would remain once the window slides out of the view
+(closes #347)
+ - fixed an issue that would not abort pending requests when loading contents
+into the Email Editor if the corresponding panel was closed before the request
+could finish, by adding an additional configuration option "requestId" to the
+"formValues" object, which stores the id generated by the Ajax request.
+"Ext.Ajax.abort()" will now be called with this id if necessary (closes #317)
+
+[Email module - backend]
+ - added method "getInboxFolderId()" to Email Module's FolderModel to return
+the default inbox folder id; updated Letterman's "assignFolderId()" to use
+this default value
+
+[Ext.ux.Wiz]
+- updated Ext.ux.Wiz to work with Ext 3.1.2 and removed dependencies for
+Ext.ux.layout.CardLayout; fixed some minor issues that would not properly
+check if values in a card are valid, thus allowing to switch cards even if that
+shouldn't be allowed
+
+[Vendor]
+ - updated conjoon to use Ext 3.1.2, which fixes several minor ui issues and
+provides minor usability improvements
+
+
+2010-03-22 0.1.1
+================
+Notable changes:
+
+[Ext.ux.Livegrid]
+ - brought Ext.ux.Livegrid 0.4.1 into the main dev branch which fixes an issue
+reported by hflipman (http://www.conjoon.org/forum/showthread.php?346) regarding
+the loading of selections
+
+[Reception module - client]
+ - fixed a consequence of a possible race condition that could occur if a user
+sets the workbench into "standby", then a login with the same user credentials
+is done on another machine, and the previously locked workbench is unlocked
+again
+
+[General]
+ - fixed several trailing comma issues that would prevent IE7 from starting
+the application
+
+[YoutubePlayer]
+ - updated conjoon to use Ext.ux.YoutubePlayer 0.4 which fixes a few issues
+and introduces functionality to chose from different video resolutions based
+on the resolutions the currently playing video provides
+
+[Feeds module - backend]
+ - fixed an issue where item facade's "importAndAddFeedItems()" would not handle
+an exception other than "Zend_Http_Client_Exception" properly, thus breaking
+updating other feed items resources if any other exception was thrown
+
+
+2010-03-01 0.1
+==============
+
+
+2010-01-21 0.1RC3
+=================
+Notable changes:
+
+[Email module - client]
+ - fixed an issue where the EmailAccountWizard would be opened twice if no email
+accounts are available due to reserved method name "onShow()"
+
+[Twitter module - backend]
+ - fixed an issue where reading out Tweets from a newly imported account with no
+Tweets yet would trigger an error
+
+[General UI]
+ - removed debug code that would trigger an error in other browsers than FF
+
+
+2010-01-15 0.1RC2
+=================
+Notable changes:
+
+[Email module - backend]
+ - fixed an issue where protocol would get overwritten on account update
+actions
+ - fixed: sending emails would not consider the configured port for the outgoing
+mail server
+
+[Email module - client]
+ - fixed a critical issue where the state of a panel would not be saved when
+deactivating this panel (closes #369)
+
+[Security]
+ - fixed a possible security hole that could occur if relative links are used
+in feed items (closes #371)
+
+[Feeds module - backend]
+ - fixed an issue that would break importing/adding feeds when a call to
+"getLastDateModified()" from Zend_Feed_Reader on the specific resource would
+return NULL (closes #370)
+
+[Feeds module - client]
+ - fixed an issue where the dialog would not be closable after an error occured
+on the server during adding a feed (see #370)
+
+[Twitter module - client]
+ - fixed an issue where the local Twitter account store would not be updated
+with the most recent values after data has been successfully submitted to the
+server (closes #361)
