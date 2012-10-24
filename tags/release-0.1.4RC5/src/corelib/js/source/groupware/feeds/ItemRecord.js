@@ -1,0 +1,34 @@
+/**
+ * conjoon
+ * (c) 2002-2012 siteartwork.de/conjoon.org
+ * licensing@conjoon.org
+ *
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+Ext.namespace('com.conjoon.groupware.feeds');
+
+
+com.conjoon.groupware.feeds.ItemRecord = Ext.data.Record.create([
+
+    {name: 'id', type : 'int'},
+    {name: 'groupwareFeedsAccountsId', type : 'int'},
+    {name: 'name', type : 'string'},
+    {name: 'title', type : 'string'},
+    {name: 'author', type : 'string'},
+    {name: 'authorUri', type : 'string'},
+    {name: 'authorEmail', type : 'string'},
+    {name: 'content', type : 'string'},
+    {name: 'description', type : 'string'},
+    {name: 'pubDate', type: 'date', dateFormat: 'Y-m-d H:i:s'},
+    {name: 'isRead', type : 'bool'},
+    {name: 'link', type : 'string'}
+
+
+]);
