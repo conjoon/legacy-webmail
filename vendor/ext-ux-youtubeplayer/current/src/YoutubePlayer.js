@@ -1,8 +1,7 @@
 /**
  * Licensed under GNU LESSER GENERAL PUBLIC LICENSE Version 3
  *
- * @author Thorsten Suckow-Homberg <ts@siteartwork.de>
- * @url http://www.siteartwork.de/youtubeplayer
+ * @author Thorsten Suckow-Homberg <thorsten@suckow-homberg.de>
  */
 
 Ext.namespace('Ext.ux.YoutubePlayer');
@@ -12,9 +11,9 @@ Ext.namespace('Ext.ux.YoutubePlayer');
  *
  * When loading the file into your application, the function "onYouTubePlayerReady"
  * will be added automatically into the window's scope. If a function with the same
- * name within that scope already exists, a function-sequence will be created using
- * "createSequence". The function expects as a first parameter the id of the flash-object
- * that called the function. See the YouTube chromeless API for more information.
+ * name within that scope already exists, an exception will be thrown.
+ * The same goes for the stateChange- and error-callbacks for the globally
+ * registered youtubeplayer.
  *
  * Flaws: Mozilla https://bugzilla.mozilla.org/show_bug.cgi?id=262354
  *
@@ -50,7 +49,7 @@ Ext.namespace('Ext.ux.YoutubePlayer');
  * @class Ext.ux.YoutubePlayer
  * @extends Ext.FlashComponent
  * @author Thorsten Suckow-Homberg <ts@siteartwork.de>
- * @version 0.3RC1
+ * @version 0.3
  */
 Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
 
@@ -67,12 +66,6 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
      * </li>
      * </ul>
      * Defaults to 'stretch'.
-     */
-
-    /**
-     * @cfg {String} developerKey
-     * The developer key to pass to the chromeless player url as the key parameter.
-     * To obtain a developer key, visit {@link http://code.google.com/apis/youtube/dashboard/}
      */
 
     /**
@@ -141,27 +134,30 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
 
         Ext.apply(this, {
             ratioMode : this.ratioMode || 'normal',
-            swfId     : this.playerId
+            id        : this.playerId,
+            swfId     : this.playerId,
+            style     : this.ratioMode == 'strict' ? 'position:relative'
+                                                   : 'position:static',
+            flashParams : {
+                bgcolor : this.bgColor || "#cccccc",
+                wmode   : 'opaque'
+            }
         });
 
         Ext.applyIf(this, {
-            url       : "http://gdata.youtube.com/apiplayer?key=" +
-                        this.developerKey + "&enablejsapi=1&playerapiid="+
+            url       : "http://www.youtube.com/apiplayer?"
+                        +"&enablejsapi=1&version=3&playerapiid="+
                         this.playerId,
             start     : false,
             controls  : false,
-            cls       : 'ext-ux-youtubeplayer',
-            scripting : 'always',
-            params    : {
-                wmode   : 'opaque',
-                bgcolor : this.bgColor || "#cccccc"
-            }
+            cls       : 'ext-ux-youtubeplayer '+this.ratioMode,
+            scripting : 'always'
         });
 
         if (!Ext.ux.YoutubePlayer.Players) {
             Ext.ux.YoutubePlayer.Players = [];
         }
-        Ext.ux.YoutubePlayer.Players[this.playerId] = this.id;
+        Ext.ux.YoutubePlayer.Players[this.playerId] = this;
     },
 
     /**
@@ -169,12 +165,11 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
      * fully initialized.
      * This method is API reserved.
      *
-     * @param {HtmlElement} player
      * @private
      */
-    _setPlayer : function(player)
+    _initPlayer : function()
     {
-        this.player = player;
+        this.player = this.swf;
     },
 
     /**
@@ -266,12 +261,10 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
                 pStyle.width  = width+'px';
                 pStyle.top  = '50%';
                 pStyle.left = '50%';
-                pStyle.position = 'relative';
                 this.setPlayerSize(width, height);
             break;
 
             case 'stretch':
-                pStyle.position = 'normal';
                 pStyle.margin   = 'auto';
                 pStyle.height   = height+'px';
                 pStyle.width    = width+'px';
@@ -299,8 +292,8 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
      */
     loadVideoById : function(videoId, startSeconds)
     {
-        this.videoId = videoId;
         this.player.loadVideoById(videoId, startSeconds);
+        this.videoId = videoId;
     },
 
     /**
@@ -317,8 +310,8 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
      */
     cueVideoById : function(videoId, startSeconds)
     {
-        this.videoId = videoId;
         this.player.cueVideoById(videoId, startSeconds);
+        this.videoId = videoId;
     },
 
     /**
@@ -388,6 +381,7 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
         if (!this.playerAvailable()) {
             return;
         }
+        this.videoId = null;
         this.player.clearVideo();
     },
 
@@ -525,7 +519,7 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
         var state = -9999;
 
         if (!this.playerAvailable()) {
-            return;
+            return '';
         } else {
             state = this.player.getPlayerState();
         }
@@ -541,6 +535,50 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
         }
 
         return state;
+    },
+
+    /**
+     * Returns the available quality levels of the loaded video, or an empty array
+     * if no current video is available.
+     *
+     * @return {Array}
+     */
+    getAvailableQualityLevels : function()
+    {
+        if (!this.playerAvailable()) {
+            return [];
+        }
+
+        return this.player.getAvailableQualityLevels();
+    },
+
+    /**
+     * Sets the playback quality for the currently available video.
+     *
+     * @param {String} level "small", "medium", "large" or "hd720"
+     */
+    setPlaybackQuality: function(level)
+    {
+        if (!this.playerAvailable()) {
+            return;
+        }
+
+        return this.player.setPlaybackQuality(level);
+    },
+
+    /**
+     * Returns the playback quality for the currently available video,
+     * or undefined.
+     *
+     * @return {mixed} "small", "medium", "large", "hd720" or undefined
+     */
+    getPlaybackQuality: function()
+    {
+        if (!this.playerAvailable()) {
+            return undefined;
+        }
+
+        return this.player.getPlaybackQuality();
     },
 
     /**
@@ -605,13 +643,50 @@ Ext.ux.YoutubePlayer = Ext.extend(Ext.FlashComponent, {
 
 // create a sequence if onYouTubePlayerReady is already available
 var _onYouTubePlayerReady = function(playerId) {
-    var cmpId = Ext.ux.YoutubePlayer.Players[playerId];
-    if (cmpId) {
-        var panel  = Ext.getCmp(cmpId);
-        var player = document.getElementById(playerId);
-        panel._setPlayer(player);
-        player.addEventListener('onStateChange', "Ext.getCmp('"+panel.id+"')._delegateStateEvent");
-        player.addEventListener('onError', "Ext.getCmp('"+panel.id+"')._delegateErrorEvent");
+    var panel = Ext.ux.YoutubePlayer.Players[playerId],
+        player,
+        stEvent,
+        errEvent,
+        prefix = "Ext_ux_YoutubePlayer_" + playerId.replace(/\./g, '_');
+
+    if (panel) {
+        player = document.getElementById(playerId);
+        panel._initPlayer();
+
+        stEvent  = prefix + "_stateCb";
+        errEvent = prefix + "_errorCb";
+
+        if (window[stEvent]) {
+            throw("callback '" + stEvent + "' is already defined.");
+            return;
+        }
+        if (window[errEvent]) {
+            throw("callback '" + errEvent + "' is already defined.");
+            return;
+        }
+
+        window[stEvent] = function() {
+            panel._delegateStateEvent.apply(panel, arguments);
+        };
+
+        window[errEvent] = function() {
+            panel._delegateErrorEvent.apply(panel, arguments);
+        };
+
+        /**
+         * We cannot set the callback to the object directly, since Youtube
+         * API seems to have problems with "." in argument for event listeners
+         * to this time. The callbacks would not be called then.
+         * Example:
+         * player.addEventListener(
+         *     'onStateChange',
+         *     "Ext.ux.YoutubePlayer.Players['"+playerId+"']._delegateStateEvent"
+         * );
+         * does NOT work!
+         */
+        player.addEventListener('onStateChange', stEvent);
+        player.addEventListener('onError',       errEvent);
+
         panel.adjustRatio(panel.getWidth(), panel.getHeight());
         panel.fireEvent('ready', panel, player);
     }
@@ -620,5 +695,5 @@ var _onYouTubePlayerReady = function(playerId) {
 if (!window.onYouTubePlayerReady) {
     window.onYouTubePlayerReady = _onYouTubePlayerReady;
 } else {
-    throw("\"onYouTubePlayerReady\" is already defined. Cannot use Ext.ux.XoutubePlayer.")
+    throw("\"onYouTubePlayerReady\" is already defined. Cannot use Ext.ux.YoutubePlayer.")
 }
