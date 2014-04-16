@@ -1,6 +1,6 @@
 /**
  * Ext.ux.layout.flexAccord.SplitBar
- * Copyright (c) 2009, http://www.siteartwork.de
+ * Copyright (c) 2009-2014, http://www.siteartwork.de
  *
  * Ext.ux.layout.flexAccord.SplitBar is licensed under the terms of the
  *                  GNU Open Source LGPL 3.0
@@ -53,7 +53,7 @@ Ext.ux.layout.flexAccord.SplitBar = function(
     this.adapter.setElementSize = function(s, newSize, onComplete)
     {
         var resizedElement = s.resizingComponent;
-        resizedElement.ownerCt.getLayout().setItemHeight(resizedElement, newSize, true);
+        resizedElement.ownerCt.getLayout().setItemHeight(resizedElement, newSize);
     };
 
 };
