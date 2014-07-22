@@ -1,0 +1,1036 @@
+﻿2014-07-22 0.1.6RC2
+====================
+Release Notes - conjoon - Version 0.1.6RC2
+
+** Bug
+    * [CN-595] - Cannot dive into nested folders of IMAP account
+    * [CN-602] - No original value shown for Conjoon_Argument_Check::check's
+                 type "string" on error, enhance casting of "int" when dealing
+                 with objects/arrays
+    * [CN-625] - Add override for issue with Zend Framework when parsing IMAP
+                 BODYSTRUCTURE responses
+    * [CN-642] - sortInfo not properly considered in ItemListRequestFacade
+    * [CN-665] - MailboxFolderPathJsonParser returns a node id although the path
+                 is empty
+    * [CN-670] - FolderCommons does not work properly which makes the
+                 SecurityService bail out on possible remote folders
+    * [CN-671] - Message Flag's "clear" property is not interpreted correctly
+    * [CN-682] - Email Filter for Items returns error message
+    * [CN-684] - RuntimeException in DefaultProtocolAdaptee is referencing wrong
+                 namespace
+    * [CN-685] - Typo in Conjoon\Mail\Storage\Pop3
+    * [CN-686] - Folder Facade treats rootIds and nodeIds not correct when
+                 trying to read out folders for user
+    * [CN-688] - Livegrid shows wrong behavior when rows are added to the end of
+                 it's store
+    * [CN-690] - Right clicking an IMAP email item throws error "tp.folderDraft
+                 is undefined"
+    * [CN-693] - State of selection for message items is erroneous
+    * [CN-702] - ReplyMessagePatronTest fails due to changes related to address
+                 list handling
+    * [CN-703] - DefaultMessageServiceFacadeTest throws error "call to
+                 createQuery() on a non-object"
+    * [CN-705] - DoctrineMailAccountRepository's "getStandardMailAccount()" does
+                 not consider accounts marked as deleted
+    * [CN-707] - Doctrine DQL not returning proper results in
+                 DoctrineMailAccountRepository
+    * [CN-709] - Naming mismatch leads to wrong references when sending messages
+    * [CN-713] - Check folder hierarchy when dragging email items
+    * [CN-714] - contentTextPlain not properly rendered into email editor
+    * [CN-716] - pendingCount not correctly read out from remote IMAP server on
+                 folder level
+    * [CN-717] - Adding new email accounts does not work
+    * [CN-718] - Minor issues related to pendingItem/email item stores
+    * [CN-719] - References between latest email grid and main email grid need
+                 to be updated
+    * [CN-725] - Updating an email account gives error: undefined index
+                 "protocol"
+    * [CN-726] - Wrong error message for missing draft folder mapping
+    * [CN-727] - AttachmentResponse filter throws error
+                 "class Zend_Filter_Htmlentities" not found
+    * [CN-728] - "cannot create panel without path" error message when trying to
+                 reply to a message
+    * [CN-739] - "startedit" event not properly triggered for option dialogs
+    * [CN-740] - "startedit" event of options dialog should also be triggered
+                 for radiogroups
+    * [CN-742] - "saveConfiguration" in container not properly returning false
+    * [CN-744] - getConnection() in DatabaseTestCaseDefault returns difference
+                 instances per call
+    * [CN-745] - flush() in DataRepository should only consider entities managed
+                 by/registered to this repository
+    * [CN-749] - change z-index of startup layer since components shine through
+    * [CN-753] - Ext.ux.FlexAccord does not allow for rendering initial
+                 collapsed panels with a fixed height
+    * [CN-755] - state identifiers for state manager not considered in js merge
+                 list
+    * [CN-756] - splashscreen hides fallback dialog if application cannot be
+                 loaded
+    * [CN-757] - fallback for auth token failure cannot use direct registry for
+                 loading
+    * [CN-766] - Exit Button not rendered when recovering from "standby" and
+                 reload
+    * [CN-768] - Twitter client/API broken
+    * [CN-772] - Downloading IMAP message triggers error
+    * [CN-773] - Actual childCount of remote mail folders not properly retrieved
+    * [CN-779] - Sorting after "recipients" in grid representing remote IMAP
+                 folders does not work
+    * [CN-785] - ImapMessageEntity not created with "date" as DateTime Object
+    * [CN-786] - EmailAccountController still uses "persist" instead of
+                 "register" when working with DataRepositories
+    * [CN-793] - ArgumentCheck does not consider "null" values for "default"
+                 if argument was not mandatory
+    * [CN-794] - ArgumentCheck does not continue with checking if default value
+                 for none mandatory arguments was provided
+    * [CN-796] - \Conjoon\Net\Uri must not lowercase path component
+    * [CN-801] - prefix missing in sql-statement at first attempt to fetch email
+                 by imap
+    * [CN-803] - Attachment indicator not properly shown for inline attachments
+                 in IMAP messages
+    * [CN-805] - Folder context menu shows "deleted" option for root nodes
+    * [CN-806] - Cannot download existing attachments when saving a draft of a
+                 local mail message
+    * [CN-807] - Empty files created for remote IMAP messages when file system
+                 is used for strogin LOBs
+    * [CN-811] - Make sure path does not contain invalid characters for
+                 zend_Cache_Core when assembling cache key
+    * [CN-813] - Make sure EmailGrid's getState/applyState void if state-config
+                 for Grid is not valid
+    * [CN-814] - livegrid triggers "Limit argument -1 is invalid" error message
+                 when re-applying state
+    * [CN-815] - Trying to download an attachment from a draft (type: forward)
+                 triggers error
+    * [CN-816] - Possible bug during installation with email templates not
+                 properly copied
+    * [CN-817] - Some SMTP server quit with "Syntax error - line too long" on
+                 some messages with certain attachments
+    * [CN-818] - EmailPanel triggers error when forwarding a draft IMAP message
+                 without a "Sent" mapping
+    * [CN-819] - Folder Facade returns "unexpected result" when latest emails
+                 grid's store is loaded
+    * [CN-820] - "path" property of email messages loaded into latest email
+                 grid is empty
+    * [CN-821] - "Ext.fly() is null" error is triggered when selecting email
+                 item in latest emails grid
+    * [CN-822] - Latest email preview window does not get properly rendered when
+                 "show external resources" for an html email is clicked
+    * [CN-823] - Latest email preview is not rendered when latest email grid's
+                 store is reloaded during scrolling
+    * [CN-824] - Namespace mismatch in LatestEmailsGridListener
+    * [CN-825] - Emails should not be droppable on target folder which equals
+                 the source folder
+    * [CN-827] - TreeEditor behavior for mail folder tree is broken when editor
+                 shows
+    * [CN-828] - feed name validator does not allow for "-" when adding feeds,
+                 but feed options dialog does
+    * [CN-830] - d&d for tab header does not work properly on left/right align
+                 tabs
+    * [CN-833] - "name" property in feed panel not properly rendered
+    * [CN-834] - Feed content is loaded from state restored feeds, although it
+                 is available
+    * [CN-836] - Wrong js file references from "app" folder in merge list
+    * [CN-840] - HTMLPurifier lib not copied during install process
+    * [CN-842] - qtips for grid rows broken
+    * [CN-843] - Start menu does not show proper menu items for tabs restored
+                 from state
+    * [CN-844] - Toolbar for feed tabs broken
+    * [CN-845] - install wizard refers to "Step 3" when stating that application
+                 path was chosen
+    * [CN-847] - Long email message tab titles not saved in state
+    * [CN-848] - Closing inactive tab does not trigger state save for workbench
+    * [CN-851] - installed version of conjoon does not start
+    * [CN-854] - Leaving htmlpurifier-dir empty triggers error
+    * [CN-855] - State of TreeFolder not restored in fresh installations
+    * [CN-856] - mail preview not properly displayed when opening mail module
+                 without existing state
+    * [CN-857] - Firefox does not use the application cache if data in manifest
+                 file is provided
+    * [CN-862] - Login process shows wrong error message when login failed
+    * [CN-863] - Mysql 5.5 throws errors during unittesting: Cannot truncate a
+                 table referenced in a foreign key constraint...
+    * [CN-864] - UnitTests fail with preg_replace(): The /e modifier is
+                 deprecated, use preg_replace_callback instead
+    * [CN-865] - {FILES.UPLOAD.MAX_SIZE} is left in the setup wizard as a
+                 fragment of a previous installation
+    * [CN-866] - LoginContainer.js shows hardcoded version/software info
+    * [CN-867] - Loading IMAP email gives error message "response was empty"
+                 when response was full of error information
+    * [CN-868] - network timeouts when installing conjoon
+    * [CN-870] - check_auth script does not exist if session information is not
+                 available
+    * [CN-871] - Greeting message upon login is not showing proper text for
+                 first time users
+    * [CN-873] - Load youtube API from http or https based on
+                 server/environment/protocol information
+    * [CN-874] - Provide workaround for ZF-10168
+    * [CN-875] - Synchronizing state-restored mail folders throws error if
+                 load-action for a node is not successful
+    * [CN-878] - Make sure livegrid does not attempt to render any data if
+                 bufferRange is not valid
+    * [CN-879] - State is not properly re-applied if buffer range does not equal
+                 to a proper value
+    * [CN-884] - Sorting a grid once buffering failed shows buffer and load
+                 mask, where it should only show the load mask
+    * [CN-886] - Context of SystemMessageManager not set when registry
+                 information is available
+    * [CN-887] - No error information displayed if backend throws exception
+                 without a "message"
+    * [CN-888] - Install Wizard checks for "files/" folder upon each request
+                 which will fail if any of the install chunks is loaded
+    * [CN-889] - cache folders not properly created
+    * [CN-893] - conjoon_rmdir tries to remove directories which have already
+                 been deleted by itself
+    * [CN-894] - remove calls to rmdir() in chunk 7
+    * [CN-895] - Links in emails broken
+    * [CN-896] - "Remember me" checkbox not considered when signing in using the
+                 revamped login screen
+    * [CN-897] - Error when trying to send mail via quickpanel
+
+** Improvement
+    * [CN-14]  - Make it possible to add/remove/edit attachments to/from/in
+                 email(draft)s
+    * [CN-417] - Resize the Make a Suggestion- and Report a Bug-dialog
+    * [CN-629] - Constructor for  Conjoon_Text_Parser should throw exceptions of
+                 the type Conjoon_Argument_Exception
+    * [CN-630] - Add "previous" exception argument to Conjoon_Exception for <
+                 PHP 5.3
+    * [CN-636] - Change
+                 ImapStorageService::getHeaderAndBodyStructureForGlobalName to
+                 also return FLAGS
+    * [CN-637] - Allow MimeDecoder to work with empty values
+    * [CN-639] - ImapStorageService::getHeaderAndMetaInformationForGlobalName
+                 should alos return each UID for every message
+    * [CN-640] - Change filters and client item record properties for message
+                 id's from int to string
+    * [CN-651] - Conjoon_Argument_Check's "instanceof" should operate on class
+                 names, not classes itself
+    * [CN-652] - Conjoon_Argument_Check's "bool" should test for object/array
+                 and throw an error if test passes
+    * [CN-694] - Add "mandatory" configuration option to
+                 Conjoon\Argument\ArgumentCheck
+    * [CN-704] - ArgumentCheck should be strict for boolean types
+    * [CN-708] - Detect the mail account connected to the message a user replies
+                 to and use this as the standard mail account
+    * [CN-711] - Read out folder types from mappings when IMAP folder get
+                 loaded
+    * [CN-712] - Improve header list and meta information retrieval for IMAP
+                 server and enable limit parameter support
+    * [CN-741] - it should be possible to render the options dialog without any
+                 remove/add button
+    * [CN-750] - Refactor com.conjoon.groupware.Registry into cudgets namespace
+    * [CN-752] - Remove dependencies from component registry in Youtube
+                 ViewBaton
+    * [CN-754] - Create auto login functionality
+    * [CN-763] - Create function which mimics ExtJS4 "Ext.getClassName"
+    * [CN-764] - Add warn() to SystemMessageManager and create new namespace for
+                 migration
+    * [CN-770] - Remove the "expand all" button from the mail folder panel
+    * [CN-775] - Introduce "buffer" options for config object for
+                 Direct.Registry
+    * [CN-780] - DirectRegistry should create new delayed task if a new buffered
+                 request is coming in
+    * [CN-790] - change registry key for saving email options
+    * [CN-791] - Add "default" option to ArgumentCheck to provide default value
+    * [CN-795] - Add URI class to \Conjoon\Net and change
+                 \Conjoon\Net\Environment to return Uri instances
+    * [CN-797] - Add "query" component to \Conjoon\Net\Uri
+    * [CN-800] - Extract code from Email Controllers working with Mail Messages
+                 into abstract base controller
+    * [CN-804] - DownloadAttachmentPatron should not expose information about
+                 the content's encoding
+    * [CN-810] - Add option "strict" to ArgumentCheck for strict checking of
+                 simple datatypes
+    * [CN-831] - Add doctrine cache settings to setupwizard
+    * [CN-832] - Change icon and title of state restored feed tabs when their
+                 content gets loaded from the server
+    * [CN-841] - change wording for the "i have read, understood..."-license
+                 agreement text
+    * [CN-846] - place "deny from all" htaccess-Files into directories specified
+                 by default paths
+    * [CN-849] - Add "isConfigured()" method to Conjoon_Log
+    * [CN-850] - Make sure com.conjoon.util.Record.convertTo() only copies field
+                 values which exist in target class
+    * [CN-852] - Change naming of "files.storage"-related options in
+                 configuration
+    * [CN-853] - Add css style to long lists of setup options so sections are
+                 grouped visually
+    * [CN-858] - Group setup options on "Finish" page visually
+    * [CN-859] - Revamp "loading" screen to match time needed for restoring the
+                 application's state
+    * [CN-860] - Revamp Login Process visually to match loading window
+    * [CN-861] - Update UI of "logout" dialog to match revamped login screen
+    * [CN-869] - Check if twitter profile images can be loaded from https
+                 instead of http URL
+    * [CN-876] - Provide an option for the Response Inspector to not
+                 automatically render error messages on the screen
+    * [CN-877] - Provide a more elegant UI control for reloading the livegrid if
+                 loading a folder's contents fail
+    * [CN-880] - Make sure mail grid does remove entries if buffer result was
+                 erroneous and let the user still scroll through the grid to
+                 init buffer retries
+    * [CN-881] - Refactor logic for reloading a steful livegrid from state and
+                 place into livegrid directly
+    * [CN-882] - Update toolbar for mail grid with enhanced information about
+                 the current state, i.e.load failures, buffer failures and such
+    * [CN-883] - Failed loading of (proxy) nodes should not result in a
+                 collapsed leaf
+    * [CN-885] - Records must not be added to the livegrid if a previous load
+                 operation failed
+    * [CN-890] - Provide information in db-install chunk about meaning of errors
+                 and failures
+    * [CN-892] - consider "status:0, statusText: communication failure" for
+                 load-/request-exceptions
+
+** New Feature
+    * [CN-410] - Add StateProvider finally to make UI components state aware
+    * [CN-600] - Create code to read out and display IMAP Email Items from
+                 remote Server without using cache/db
+    * [CN-646] - Enable deleting of IMAP folders
+    * [CN-647] - Enable moving of messages between different IMAP folders
+    * [CN-648] - Enable marking an IMAP Email Message as "read/unread"
+    * [CN-649] - Enable marking an IMAP Email Message as "junk/nojunk"
+    * [CN-650] - IMAP Email Messages flagged as "recent" should be rendered
+                 accordingly in the grid
+    * [CN-699] - Add folder mapping workflow so conjoon knows which remote
+                 folders are used for specific actions
+    * [CN-700] - Add functionality for composing, editing, replying and
+                 forwarding messages using IMAP accounts
+    * [CN-706] - Add method to MailAccountRepository for returning all accounts
+                 which belong to a specific user
+    * [CN-792] - Bring Conjoon\Net package into API for querying environment
+                 informations
+
+** Task
+    * [CN-117] - Check NodeEditor and various related mouse events
+    * [CN-363] - Check for SSL support
+    * [CN-365] - Check naming conventions for IMAP folders
+    * [CN-392] - Check how PDO stream support behaves against emails that exceed
+                 max_allowed_packet size
+    * [CN-489] - Bring Server Type Card back into Email Account Assistant
+    * [CN-571] - Bring back "Folder mappings" menu item
+    * [CN-572] - Bring Attachment Grid back into Email Form
+    * [CN-573] - Bring sources for Attachment Panel into javascript merge lists
+    * [CN-587] - Update wording in Settings Tab in Email Accounts Dialog
+    * [CN-593] - Update client code to consider new "root_remote" folder type
+    * [CN-614] - Conjoon_Text_Transformer::transform must also order subclasses
+                 to throw exceptions of the type Conjoon_Argument_Exception
+    * [CN-624] - bring 0.1.5 into main dev line
+    * [CN-631] - Add Unit Test stubs for Conjoon_Mail
+    * [CN-632] - Add Unit Test stubs for Conjoon_Mail_Storage
+    * [CN-633] - Add Unit Test stubs for Conjoon_Mail_Protocol
+    * [CN-657] - Check build process for newly added files (doctrin/orm)
+    * [CN-663] - Remove AllTests.php from UnitTests
+    * [CN-664] - Add method to ClientFolderService to check whether a specific
+                 folder may be accessed by a user
+    * [CN-676] - Check if accountVerifyCredentials still returns an error when
+                 calling Twitter API
+    * [CN-678] - Conjoon\Mail\Server\response\ResponseBody should hold an array
+                 by default
+    * [CN-679] - Remove SuccessResponse/ErrorResponseBody since tagging a
+                 successfull response is not needed
+    * [CN-680] - Conjoon\Mail\Server\Request\Request needs access to params for
+                 forwarding to protocol commands as arguments
+    * [CN-681] - Add Doctrine Table Prefix Features
+    * [CN-683] - Add tests for email recipients filters to make sure they work
+                 with refactorings
+    * [CN-687] - Update email accounts data structure with foreign key relations
+    * [CN-691] - Invalidate message item selections if user is in a different
+                 root folder
+    * [CN-692] - Load IMAP message into preview panel
+    * [CN-696] - Add association to attachment table for email message entity
+    * [CN-697] - Attachments must be downloadable from a remote server
+    * [CN-715] - Remove obsolete Folder Mapping code
+    * [CN-722] - Update prerequisites with PHP 5.3
+    * [CN-723] - Remove version check from index.php
+    * [CN-724] - Update autoloader to consider new PHP 5.3 namespaces
+    * [CN-746] - Add __toString methods to DataEntities
+    * [CN-747] - Override __call in doctrine data repositories in Conjoon\Data
+    * [CN-748] - Refactor MessageAttachmentEntity into AttachmentEntity
+    * [CN-751] - Add unit test to DoctrineMessageRepository to make sure
+                 flushing message with newly added folder fails
+    * [CN-762] - Create overrides in Ext namespace for ExtJS4's "Ext.create" and
+                 "Ext.define"
+    * [CN-765] - Move conjoon.mail.ui into conjoon.mail.view Namespace
+    * [CN-774] - Update namespace changes for existing sources
+    * [CN-781] - Remove debug output from ProxyTreeLoader
+    * [CN-784] - Update copyright information
+    * [CN-798] - Replace deprecated "_redirect()" method with "redirect()" in
+                 ActionController
+    * [CN-829] - check if generated manifest file is complete
+    * [CN-835] - Add htmlpurifier to build process
+    * [CN-837] - Update Install Wizard with include path to HTMLPurifier
+    * [CN-839] - Update "lib path" step in Install Wizard with info about
+                 HTMLPurifier path
+    * [CN-891] - Check for updated indizes on production and compare to dev
+                 regarding mail tables
+
+** Sub-task
+    * [CN-601] - The path to the requested folder should be submitted to the
+                 server when requesting the contents of an IMAP folder
+    * [CN-603] - refactor Conjoon_Filter_DateToUtc and add Unit Tests
+    * [CN-604] - refactor Conjoon_Filter_DateUtcToLocal and add Unit Tests
+    * [CN-605] - Refactor Conjoon_Filter_EmailRecipients and add Unit Tests
+    * [CN-606] - refactor Conjoon_Filter_EmailRecipientsToString and add Unit
+                 Tests
+    * [CN-607] - refactor Conjoon_Filter_MimeDecodeHeader and add Unit Tests
+    * [CN-608] - Refactor Conjoon_Filter_SanitizeDate and add Unit Tests
+    * [CN-609] - Refactor Conjoon_Filter_SortDirection and add Unit Tests
+    * [CN-610] - Add methods to read out raw messages and message header lists
+                 to Conjoon_Mail_Storage_Imap
+    * [CN-611] - Add method to translate a path value as sent by the client into
+                 an IMAP global name
+    * [CN-612] - Refactor Conjoon_Text_Transformer_EmailAddressToHtml into
+                 Conjoon_Text_Transformer_Email-namespace
+    * [CN-613] - Create Parser base class in Conjoon_Text to provide interface
+                 for parsing text input
+    * [CN-634] - Add parser for mailbox folder paths as sent by the client
+    * [CN-635] - Add MessageHeaderParser for parsing email message header
+    * [CN-653] - DefaultClientMessageFlagColelction does not assign flag
+                 objects properly
+    * [CN-654] - ClientMailboxFolder should also provide access to the client
+                 folder's root id
+    * [CN-655] - Update groupware_email_folders with foreign key for parent_id
+                 <-> id
+    * [CN-656] - Introduce Doctrine as Vendor Library
+    * [CN-658] - DoctrineMailFolderRepository references missing file
+    * [CN-659] - Add test to DoctrineMailFolderRepository for checking if entity
+                 was found
+    * [CN-660] - Add initial Folder Service with method to check whether Client
+                 Folder represents a remote folder
+    * [CN-661] - Update groupware_email_items/flags with proper foreign key
+                 settings
+    * [CN-662] - Create entities and repositories for email message items/flags
+                 and users
+    * [CN-758] - create RegistryProvider for saving component states in direct
+                 registry
+    * [CN-771] - Update documentation regarding removed "expand all" button
+    * [CN-776] - Make mail grid state aware
+    * [CN-777] - Make viewContainer state aware
+    * [CN-778] - Make sure RegistryProvider buffers its requests to the
+                 DirectRegistry when changing state values
+    * [CN-808] - Add File Module Settings to Install Wizard
+
+** Technical task
+    * [CN-730] - Reading POP3 emails should not use the MessageResponse Filter
+    * [CN-731] - Create default configuration files for HTMLPurifier
+                 configurations
+    * [CN-732] - Create factory for HTMLPurifier instances
+    * [CN-733] - Apply HTMLPurifier setup options to install wizard
+    * [CN-734] - Create registry values for saving preferred email message
+                 format for reading
+    * [CN-735] - Create frontend option dialog for choosing preferred format for
+                 reading emails
+    * [CN-736] - An email message with external resources should prompt the user
+                 if the resources should be loaded
+    * [CN-737] - Update ReadMessagePatron for displaying emails in html format
+    * [CN-743] - create separate attachment content table
+    * [CN-759] - update fixtures and state identifiers with component ids from
+                 workbench and email modules
+    * [CN-760] - Save state of active panel and loaded email messages (read
+                 only)
+    * [CN-761] - Save state of email folder tree
+    * [CN-787] - Update mail cache to consider reading format
+    * [CN-788] - Make twitter widget state aware
+    * [CN-789] - Make Feed grid state aware
+    * [CN-802] - Downloading from Attachment Grid throws error
+
+
+2012-12-03 0.1.5.1
+==================
+Release Notes - conjoon - Version 0.1.5.1
+
+** Bug
+    * [CN-666] - Https protocol not properly submitted as part of the callback
+                 url when importing a new Twitter account
+    * [CN-667] - Importing Twitter Account fails on installations with base urls
+                 other than '/'
+    * [CN-675] - Twitter Service responds with "Bad Authentication Data" when
+                 trying to import account
+    * [CN-677] - Email View seems to re-install LinkInterceptor
+
+** Improvement
+    * [CN-668] - Add workaround so that Apache Config AllowEncodedSlashes can be
+                 omitted
+
+** Task
+    * [CN-669] - Check if the Youtube API provides detailed error information if
+                 anything odd happens
+
+
+2012-11-18 0.1.5
+================
+Release Notes - conjoon - Version 0.1.5
+
+** Bug
+    * [CN-393] - Closing main email tab triggers error, cannot be reopened
+    * [CN-463] - Adding an Email Account throws a MySQL error when encryption
+                 method is not specified
+    * [CN-466] - Empty list of Twitter Accounts causes Twitter Account Dialog to
+                 display "no data" in it's list panel
+    * [CN-469] - Removing all Email Accounts throws error when trying to open
+                 related Email Folder
+    * [CN-471] - "Clear cache and disable cache afterwards" does not disable the
+                 cache, i.e. manifest file is not empty
+    * [CN-474] - MySQL strict mode gives error when feeds with overlong titles
+                 get imported
+    * [CN-478] - Leading colon prevents configuration file from being loaded
+    * [CN-479] - Step 1 from install wizard gives notice: "Notice: Use of
+                 undefined constant ENT_HTML401"
+    * [CN-480] - Setup Assistant's Table Prefix field in IE9 is not aligned
+                 properly
+    * [CN-483] - Conjoon_Filter_ShortenString does not consider delimiter length
+                 when computing max. number of characters in string to shorten
+    * [CN-486] - Port Inbox not properly set when changed from 110 to different
+                 value in Email Account Assistant
+    * [CN-508] - GridViewMenuPlugin throws error in Ext 3.4 if checkbox is
+                 clicked
+    * [CN-509] - Closing Email Tab throws error if IntroductionPanel hasn't been
+                 rendered yet
+    * [CN-510] - Clicking last remaining column to hidden in GridViewMenuPlugin
+                 unselects checkbox
+    * [CN-516] - Check if account is already in Twitter Store when importing new
+                 accounts from the Twitter Service
+    * [CN-518] - Email Account Wizard allows for adding an Account with a name
+                 already existing
+    * [CN-519] - Backend does not check if account with the same name for the
+                 same user already exists
+    * [CN-520] - Change logic for looking up already existing Twitter Account
+    * [CN-521] - Sending empty post to EmailAccountController quites with error
+                 notice
+    * [CN-522] - "Secure connection for Outbox" not visible on Finish-Card of
+                 Email Account Wizard
+    * [CN-523] - valuesValid() in EmailAccountDialog does not refer to the
+                 proper tab when outbox values are handled
+    * [CN-524] - Outbox fields in EmailAccountDialog marked as invalid, though
+                 they aren't
+    * [CN-526] - Load mask does not disappear if manifest is empty and rebuild
+                 of cache is requested
+    * [CN-529] - Number of files cached by default from the Application Cache
+                 differs between Chrome/Safari/Mozilla
+    * [CN-530] - Fixtures for registry do not allow application cache settings
+                 to be editable
+    * [CN-531] - Wrong behavior for Apply Button in Local Cache Dialog
+    * [CN-536] - Issue with wrong argument in
+                 Conjoon_Modules_Groupware_Email_Account_Model_Account::removeAsDeletedFlaggedAccounts
+    * [CN-538] - Adding folders to existing ones does not work
+    * [CN-539] - Deleting a folder does not work
+    * [CN-542] - Moving Email Folders  does not work
+    * [CN-546] - Trailing comma in
+                 localCache.options.ui.DefaultSettingsContainerUi
+    * [CN-547] - Apply-Button does not get re-enabled after changing cache
+                 options
+    * [CN-553] - Update fixtures to make "sfx/enabled" editable
+    * [CN-557] - Flash (*.swf) files from Ext JS not considered during build
+                 process
+    * [CN-560] - Email Editor Tab does not open
+    * [CN-578] - Downloading an Email Message with attachment from POP3 server
+                 gives error message
+    * [CN-581] - Reloading the email grid using the toolbar button results in
+                 empty grid
+    * [CN-582] - Downloading an Email Attachment returns error message in file
+                 contents
+    * [CN-588] - InstallLogger does not log the proper statements when running
+                 0.1.4RC5 Patch
+    * [CN-589] - Column user_name in users table must be unique
+    * [CN-616] - Fetching Email with attachments gives error that content does
+                 not fit into field "content"
+    * [CN-617] - Email Grid hangs during scrolling and defers showing the
+                 loadmask
+    * [CN-618] - Feeds not properly imported since guid is longer than 256
+                 bytes
+    * [CN-619] - Saving Email Message gives sql error message "incorrect string
+                 value"...
+    * [CN-620] - Zend_Controller_Exception not found in
+                 Zend/Controller/Plugin/Broker.php on line 336
+    * [CN-621] - Warning not displayed from patch notes when choosing a patch
+
+** Improvement
+    * [CN-374] - Wrap version check in cudgets library in build tags
+    * [CN-394] - Change wording for quick panels
+    * [CN-418] - Group Make a Suggestion- and Report a Bug-dialog into one
+                 dialog
+    * [CN-428] - Transform email addresses in email message view to clickable
+                 links
+    * [CN-439] - Add header data to message body when forwarding an email
+    * [CN-476] - Set encryption method radio boxes right before port field in
+                 Email Account Assistant
+    * [CN-501] - Add notice to difference config.ini.php and
+                 installation.info.php to install wizard if upgrading an older
+                 version
+    * [CN-513] - Change colors for links in signatures when viewing in Email
+                 Message View
+    * [CN-515] - Improve StatusBar's ProgressBar
+    * [CN-525] - Create better error message for cache build failure
+    * [CN-527] - Progress bar back text color should be white instead of black
+    * [CN-533] - Progress bar text in Google Chrome is not aligned properly
+    * [CN-534] - Change Protocol Fields in EmailAccountDialog from disabled
+                 TextField to DisplayField
+    * [CN-535] - Conjoon_Builder must allow for omitting $_buildClass
+    * [CN-543] - Move folder's model deleteFolder to Facade and delete
+                 recursively
+    * [CN-548] - Show confirm dialog before cache gets rebuild if changes in the
+                 File Settings have been detected
+    * [CN-552] - update index-scripts with html5 doctype
+    * [CN-559] - For the Setup Assistant, suppress session_start errors in
+                 index.php and provide functionality to invalidate existing
+                 session data
+    * [CN-567] - Update Application Cache Facade to utilize combined manifest
+                 files
+    * [CN-568] - Add more margin to elements on the Identiy and Settings Card
+                 from the Email Account Dialog
+    * [CN-574] - Improve install wizard by "locking" the folder after
+                 installation
+    * [CN-575] - Provide link to installation on Finish Card
+    * [CN-576] - Add authorization to install wizard
+    * [CN-579] - Error Messages from sql statements in InstallLogger shown as
+                 numeric codes instead of text messages
+    * [CN-580] - copy config.ini.php to install folder instead of removing it
+                 entirely
+    * [CN-590] - Update install wizard to consider lower case usernames only
+    * [CN-592] - Add deployment channel "development" to build tools
+    * [CN-615] - If an error during fetching emails occurs, provide more details
+                 if it's related to SQL
+
+** New Feature
+    * [CN-382] - Merge pluginLoader-cache from 0.1 branch into trunk
+
+** Task
+    * [CN-375] - Merge HTML5 Application Cache features into 0.1 branch
+    * [CN-416] - Change links from http://www.conjoon.org to http://conjoon.org
+    * [CN-419] - Update to ExtJS 3.4
+    * [CN-425] - Remove menu items in Help menu
+    * [CN-460] - Update to Zend Framework 1.12
+    * [CN-462] - Update Email Grid to changes that came with Ext.ux.Livegrid 0.6
+    * [CN-465] - Set default storage engine to InnoDB for tables from the merged
+                 branches and check merged sql file for validity
+    * [CN-467] - Add HTML5 Application Cache manifest file list creation to build
+    process
+    * [CN-468] - Add cudgets library to file list for Application Cache manifest
+    * [CN-472] - Test Application Cache with nested document root and check if
+                 base path needs to be specified in manifest
+    * [CN-473] - update file headers with meta info in remaining files in main
+                 dev line
+    * [CN-477] - mark INSTALL.txt as outdated and refer to conjoon.org/wiki
+    * [CN-484] - Create fixtures for registry
+    * [CN-488] - Remove Card for chosing protocol in Email Account Assistant
+    * [CN-517] - Check behavior of Email Account Dialog in main dev line
+    * [CN-528] - Move bug overrides to ext-bug-overrides.js
+    * [CN-537] - add cache setup to install wizard
+    * [CN-545] - Bring 0.1.4.2 into main dev line
+    * [CN-566] - Remove Folder Mapping Menu Entry from Menu bar
+    * [CN-585] - Update install wizard's footer
+    * [CN-586] - remove note about IMAP protocol in Settings Tab in Email
+                 Accounts Dialog
+
+** Sub-task
+    * [CN-459] - Update Ext.ux.Livegrid to work with ExtJS 3.4 and import into
+                 vendor library
+    * [CN-461] - Check Zend_Service_Twitter for recent API changes and remove
+                 custom changes introduced in conjoon 0.1.4
+    * [CN-485] - Add fixtures to Install Wizard
+    * [CN-496] - Check Ajax Queue implementation against ExtJS 3.4
+    * [CN-507] - Add ProcessDevFragment-Filter to build process for conjoon
+                 javascript files
+    * [CN-550] - Add events to the Application Cache API for a more detailed
+                 cache build process
+    * [CN-558] - HTML5 manifest files should be created during install process
+                 with the proper base path
+    * [CN-570] - Create all possible combinations of manifest files during build
+                 process
+
+
+2012-11-04 0.1.4.2
+==================
+Release Notes - conjoon - Version 0.1.4.2
+
+** Bug
+    * [CN-493] - Date in Email Message Header is not properly adjusted to local
+                 timezone when viewing a message
+    * [CN-498] - Loading icon in Email Tab does not disappear in IE9
+    * [CN-502] - Opening Email Editor in IE8 throws error that keydown listener
+                 can not be installed
+    * [CN-503] - IE9 throws error "object does not support the property or
+                 method 'createContextualFragment'"
+    * [CN-504] - Editing a Blockquote in the EmailEditor does not work correct
+    * [CN-505] - Tree nodes from Email Folder Panel not clickable in IE9
+
+** Task
+    * [CN-495] - Check Ajax Queue implementation for IE based browsers and see
+                 whether the number of concurrent requests is valid for IE8
+                 and IE9
+
+
+2012-10-30 0.1.4.1
+==================
+Release Notes - conjoon - Version 0.1.4.1
+
+** Bug
+    * [CN-458] - Youtube Api does not fire onStateChange events anymore
+    * [CN-490] - Saving a draft and moving a message to the outbox does not work
+    * [CN-491] - EmailSendController triggers error when sending message from outbox
+    * [CN-492] - Quoting does not work properly for email messages being saved as drafts
+
+
+2012-10-28 0.1.4
+================
+Release Notes - conjoon - Version 0.1.4
+
+** Improvement
+    * [CN-406] - Make link to user guide active
+
+** Task
+    * [CN-426] - Write Administration Guide and Install/Upgrade Guide
+    * [CN-443] - Hint to proper server time in installation/upgrade guide when
+                 referring to timezones
+
+** Sub-task
+    * [CN-427] - Add link for Install/Upgrade Guide to Install Wizard
+
+
+2012-10-25 0.1.4RC6
+===================
+Release Notes - conjoon - Version 0.1.4RC6
+
+** Bug
+    * [CN-457] - Call to Twitter API gives an error
+
+
+2012-10-24 0.1.4RC5
+===================
+Release Notes - conjoon - Version 0.1.4RC5
+
+** Bug
+    * [CN-454] - Preview Window issues when doubleclicking
+    * [CN-455] - conjoon does not tell MySQL which charset it's using in it's
+                 queries
+
+** Improvement
+    * [CN-456] - Change engine to InnoDB and collation to utf8_bin  of all
+                 existing tables
+
+
+2012-03-12 0.1.4RC4
+===================
+Release Notes - conjoon - Version 0.1.4RC4
+
+** Bug
+    * [CN-351] - At least one header line is too long error
+    * [CN-413] - Marking Emails as read doesn't work properly
+    * [CN-414] - Check for base url in install wizard
+    * [CN-415] - Special chars do not get rendered properly when provided
+                 during install wizard
+    * [CN-422] - Preview Windows do not get updated when using keyboard for
+                 navigation
+    * [CN-423] - Toolbar buttons do not get disabled when email grid reloads
+    * [CN-424] - Fonts do not get rendered italic when wrapping in slashes
+    * [CN-429] - Youtube Player keeps playing video when panel/ tab is
+                 closed/hidden
+    * [CN-432] - Marking email item as unread does not work properly
+    * [CN-434] - Emails without date header cannot be received
+    * [CN-435] - Confirm dialog when closing an email editor instance is not
+                 shown when created from quickpanel
+    * [CN-436] - Wrong item count for draft folder when removing all messages
+    * [CN-437] - Sending message from outbox with erroneous server information
+                 does not show error message
+    * [CN-441] - Typo in member "attachmentFacade" in  Letterman
+    * [CN-444] - Refreshing feed items quits with error message "Data too long
+                 for column 'content'"
+    * [CN-445] - Message-Id is generated wrong
+    * [CN-451] - marking emails as "spam" does not work
+    * [CN-452] - Marking feed items as read/unread does not work
+    * [CN-453] - Invalid Mime Messages prevent other messages to be downloaded
+
+** Improvement
+    * [CN-448] - Change references column in groupware_email_items to MEDIUMTEXT
+
+** Task
+    * [CN-430] - Check if timeout for removing iframe when downloading
+                 attachment is set to a high enough value
+    * [CN-433] - Check email address validation for recipients list in email
+                 editor
+    * [CN-442] - Move build.properties to ignore list and instead provide
+                 template for this file
+    * [CN-446] - Look up "2011" strings
+
+
+2012-01-22 0.1.4RC3
+===================
+Release Notes - conjoon - Version 0.1.4RC3
+
+** Bug
+    * [CN-396] - MySQL's strict mode prevents overlong dates from being inserted
+    * [CN-400] - Background not properly rendered when login screen is showing
+    * [CN-401] - File SystemMessagemanager.js cannot be found during build
+                 process of login-target
+    * [CN-403] - Preset property "default.caching" not properly considered
+                 during installation process
+    * [CN-404] - Wrong doctype declaration in reception's index.html
+    * [CN-409] - "Fetch Email" button is rendered active when activating Email
+                 Tab for the first time
+    * [CN-412] - Builds do not get generated from proper version
+
+** Improvement
+    * [CN-407] - Improve build process by adding tests / removing file header
+                 parts
+    * [CN-408] - Remove CHANGELOG.txt from repository and let the build-tools
+                 auto-generate it
+
+** Task
+    * [CN-402] - Edit build files to consider BC breaks that come with phing 2.4
+    * [CN-411] - Improve build process for creating packed versions of build
+
+** Sub-task
+    * [CN-397] - The Wizard must provide a default timezone to choose from
+    * [CN-405] - Create update/patch script for migrating datetime fields prior
+                 to 0.1.4
+
+
+2011-05-31 0.1.4RC2
+===================
+Notable changes:
+
+[Email module - client]
+ - fixed an issue where an email would not be properly referenced when
+preview window was dragged & droppped into the content panel, then any
+operation on this panel would have been invoked (reply, reply all, forward)
+due to the fact that the EditorManager would only accept a record of type
+EmailItemRecord for creating an editor instance, but not EmailRecord (closes #381)
+(thanks to larissa84)
+
+[Feeds module - backend]
+ - fixed an issue where the "author" field of a feed entry would not be
+stored properly in the database, thus, showing the value "Array" as the author
+name: adjusted backend code to inspect the return value of "getAuthor()" of the
+feed entry object and apply found values properly (closes #382)
+(reported by e-mike)
+
+[Twitter module - client]
+ - fixed an issue where replies would not be linked properly due to wrong
+data type for specific fields; changed those fields to type "string" to make
+sure that containing ids can be rendered properly (closes #376)
+
+[Workbench]
+ - fixed an issue where the "startup" sound would not play as soon as
+the workbench is in "ready" state, even if the registry tells that system
+sounds are enabled: resolved by adding a "onload" listener to the
+SystemSoundManager that would call attached listeners to tell that it's ready
+to be used; previously it was assumed that the driver is ready to be used as
+soon as the workbench is available (closes #379)
+
+[General UI]
+ - fixed an issue where some regions of a container would not be
+clickable if it was masked previously by a feed/email preview, and this
+preview would have been hidden using it's animation function: adjusted
+callback so the anim element's container gets hidden, too (closes #378)
+
+[Datastore - mysql]
+ - fixed an issue where two different indexes would target the same
+column: changed index "user_id" to operate on column "user_id" (closes #377)
+
+
+2011-05-13 0.1.4RC1
+===================
+Notable changes:
+
+[Twitter module - client]
+ - changed ui of both Wizard/Options panel to consider Twitter's new oauth
+authorization process
+
+[Twitter module - backend]
+ - changed backend implementation to use Twitter's Oauth process now. Changed
+structure of datastorage accordingly so that no Twitter related passwords will
+be stored there anymore
+fixed a showstopper which would prevent a successful installation when
+check for prerequisites fails and users would not be able to page through the
+install process(reported by odomera)
+ - fixed some issues related to deprecated parameters Zend Framework would
+still use when communicating with the Twitter API (see ZF-9215)
+ - fixed types of fields which would still be set to "int"/"float" whereas
+"string" should be used now
+
+[General backend]
+ - fixed the override of Conjoon_Config_Array::_loadIniFile() which would
+trigger a notice if E_STRICT error reporting is activated
+
+[Vendor]
+ - Updated Zend Framework to version 1.11.6
+
+
+2010-04-08 0.1.3.2
+==================
+Notable changes:
+
+[install wizard]
+ - fixed a showstopper which would prevent a successful installation when
+check for prerequisites fails and users would not be able to page through the
+install process(reported by odomera)
+
+
+2010-04-07 0.1.3.1
+==================
+Notable changes:
+
+[Datastore - mysql]
+ - fixed a problem with the sql statements where missing backticks would
+prevent the datastructure to be updated properly
+
+
+2010-04-07 0.1.3
+================
+Notable changes:
+
+[Workbench]
+ - enhanced "Help" menu, added dialogs for submitting suggestions/bug reports
+
+[Datastore - mysql]
+ - fixed an issue with datastructure for attachment table, since some
+attachments could not be saved due to restrictions of content length for "BLOB"
+fields - changed field "content" in "attachment" table from "BLOB" to "LONGBLOB"
+
+[Email module - client]
+ - added DownloadManager for queueing downloads in conjoon
+ - revamped DefaultViewRenderer for displaying email messages to show a
+resizable and scrollable attachment list
+
+[Email module - backend]
+ - fixed an security issue where models would not check for proper folder
+permissions before sending an email message / item to the client
+ - added functionality for downloading attachments
+
+
+2010-03-29 0.1.2
+================
+Notable changes:
+
+[install wizard]
+ - fixed an issue related to creating directories during the installation
+process on unix systems
+ - fixed an issue where the "edition" configuration property would not be
+properly re-used while updating conjoon; fixed an issue where "apache" would
+not be properly recognized during install if the server would not expose its
+version number
+ - updated wording for the prerequisite check for proposing setting group/owner
+of the install folder/parent folder of the installation
+ - added check for moving files/folders within install dir to make sure
+files/folders are accessible through the given permissions
+ - user will now be forced to properly set file permissions of the "install"
+and all its sub folders during install to prevent fail of copying/moving
+folders
+
+[cudgets library]
+ - fixed an issue with the cudgets library that would attach a cache buster
+manually to each url on Ext.Ajax' event "beforerequest", instead of using the
+"disableCaching" option directly; this would urls cause to be generated with two
+cache busters (closes #353)
+
+[Feeds module - client]
+ - removed a condition in FeedGrid.js that would check if a click in a cell
+happened while holding down shift/ctrl key, which would prevent the Feed Preview
+to properly hide any shown Feed Preview Window (closes #346)
+
+[Email module - client]
+ - fixed an issue where fragments of the
+EmailPreview Window would remain once the window slides out of the view
+(closes #347)
+ - fixed an issue that would not abort pending requests when loading contents
+into the Email Editor if the corresponding panel was closed before the request
+could finish, by adding an additional configuration option "requestId" to the
+"formValues" object, which stores the id generated by the Ajax request.
+"Ext.Ajax.abort()" will now be called with this id if necessary (closes #317)
+
+[Email module - backend]
+ - added method "getInboxFolderId()" to Email Module's FolderModel to return
+the default inbox folder id; updated Letterman's "assignFolderId()" to use
+this default value
+
+[Ext.ux.Wiz]
+- updated Ext.ux.Wiz to work with Ext 3.1.2 and removed dependencies for
+Ext.ux.layout.CardLayout; fixed some minor issues that would not properly
+check if values in a card are valid, thus allowing to switch cards even if that
+shouldn't be allowed
+
+[Vendor]
+ - updated conjoon to use Ext 3.1.2, which fixes several minor ui issues and
+provides minor usability improvements
+
+
+2010-03-22 0.1.1
+================
+Notable changes:
+
+[Ext.ux.Livegrid]
+ - brought Ext.ux.Livegrid 0.4.1 into the main dev branch which fixes an issue
+reported by hflipman (http://www.conjoon.org/forum/showthread.php?346) regarding
+the loading of selections
+
+[Reception module - client]
+ - fixed a consequence of a possible race condition that could occur if a user
+sets the workbench into "standby", then a login with the same user credentials
+is done on another machine, and the previously locked workbench is unlocked
+again
+
+[General]
+ - fixed several trailing comma issues that would prevent IE7 from starting
+the application
+
+[YoutubePlayer]
+ - updated conjoon to use Ext.ux.YoutubePlayer 0.4 which fixes a few issues
+and introduces functionality to chose from different video resolutions based
+on the resolutions the currently playing video provides
+
+[Feeds module - backend]
+ - fixed an issue where item facade's "importAndAddFeedItems()" would not handle
+an exception other than "Zend_Http_Client_Exception" properly, thus breaking
+updating other feed items resources if any other exception was thrown
+
+
+2010-03-01 0.1
+==============
+
+
+2010-01-21 0.1RC3
+=================
+Notable changes:
+
+[Email module - client]
+ - fixed an issue where the EmailAccountWizard would be opened twice if no email
+accounts are available due to reserved method name "onShow()"
+
+[Twitter module - backend]
+ - fixed an issue where reading out Tweets from a newly imported account with no
+Tweets yet would trigger an error
+
+[General UI]
+ - removed debug code that would trigger an error in other browsers than FF
+
+
+2010-01-15 0.1RC2
+=================
+Notable changes:
+
+[Email module - backend]
+ - fixed an issue where protocol would get overwritten on account update
+actions
+ - fixed: sending emails would not consider the configured port for the outgoing
+mail server
+
+[Email module - client]
+ - fixed a critical issue where the state of a panel would not be saved when
+deactivating this panel (closes #369)
+
+[Security]
+ - fixed a possible security hole that could occur if relative links are used
+in feed items (closes #371)
+
+[Feeds module - backend]
+ - fixed an issue that would break importing/adding feeds when a call to
+"getLastDateModified()" from Zend_Feed_Reader on the specific resource would
+return NULL (closes #370)
+
+[Feeds module - client]
+ - fixed an issue where the dialog would not be closable after an error occured
+on the server during adding a feed (see #370)
+
+[Twitter module - client]
+ - fixed an issue where the local Twitter account store would not be updated
+with the most recent values after data has been successfully submitted to the
+server (closes #361)
