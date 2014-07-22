@@ -1,0 +1,58 @@
+/**
+ * conjoon
+ * (c) 2007-2014 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+ /**
+ * Menubar style for groupware
+ */
+.com-conjoon-groupware-Menubar {
+    padding:0px 2px;
+    height:20px;
+    background:#ECE9D8;
+    border-bottom:1px solid #ACA899;
+}
+
+.com-conjoon-groupware-Menubar .x-btn-mc em {
+    padding-right:0px;
+    background:none;
+}
+
+.com-conjoon-groupware-Menubar .x-btn-ml,
+.com-conjoon-groupware-Menubar .x-btn-mc,
+.com-conjoon-groupware-Menubar .x-btn-mr {
+    width:5px;
+}
+
+.com-conjoon-groupware-Menubar .x-btn-over td,
+.com-conjoon-groupware-Menubar .x-btn-over button,
+.com-conjoon-groupware-Menubar .x-btn-menu-active td,
+.com-conjoon-groupware-Menubar .x-btn-menu-active button {
+    background:#316AC5;
+    color:white!important;
+}

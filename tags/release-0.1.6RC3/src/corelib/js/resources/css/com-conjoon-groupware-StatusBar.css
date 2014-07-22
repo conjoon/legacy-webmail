@@ -1,0 +1,64 @@
+/**
+ * conjoon
+ * (c) 2007-2014 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+.com-conjoon-groupware-StatusBar {
+    background-color:#ECE9D8;
+    border-bottom:none !important;
+    border-top:1px solid #959385;
+    background-image:url(../images/groupware-statusbar.png);
+    background-repeat:repeat-x;
+    background-position:top;
+    padding:1px 2px 2px 4px!important;
+    height:18px!important;
+}
+
+.com-conjoon-groupware-StatusBar .xtb-sep {
+    background-image: url(../images/statusbar-separator.gif) !important;
+}
+
+.com-conjoon-groupware-statusbar-ConnectionInfo {
+    background-image:url(../images/12x12/apps/groupware-statusbar-connectioninfo.png);
+    background-position:center;
+    background-repeat:no-repeat;
+    height:17px;
+    width:12px;
+}
+
+.com-conjoon-groupware-StatusBar .downloadInfo {
+    background-image:url(../images/12x12/apps/groupware-statusbar-downloadinfo.gif);
+    background-position:center;
+    background-repeat:no-repeat;
+    height:17px;
+    width:12px;
+}
+
+.com-conjoon-groupware-StatusBar .downloadInfo.inActive {
+    background:none;
+}

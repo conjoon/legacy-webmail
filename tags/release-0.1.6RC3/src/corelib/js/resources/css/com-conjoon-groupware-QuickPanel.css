@@ -1,0 +1,126 @@
+/**
+ * conjoon
+ * (c) 2007-2014 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+/**
+ * Small Editor Font for the quickpanel
+ */
+.com-conjoon-groupware-quickpanel-SmallEditorFont {
+    font-size:11px;
+}
+
+
+/**
+ * Icons for quickpanel
+ */
+.com-conjoon-groupware-quickpanel-NewIcon {
+    background-image:url('../images/16x16/apps/groupware-quickpanel-newdata.png') !important;
+}
+
+.com-conjoon-groupware-quickpanel-ContactsIcon {
+    background-image:url('../images/16x16/apps/groupware-quickpanel-contacts.png') !important;
+}
+
+.com-conjoon-groupware-quickpanel-CalendarIcon {
+    background-image:url('../images/16x16/apps/groupware-quickpanel-calendar.png') !important;
+}
+
+.com-conjoon-groupware-quickpanel-EmailIcon {
+    background-image:url('../images/16x16/apps/groupware-quickpanel-email.png') !important;
+}
+
+.com-conjoon-groupware-quickpanel-TodoIcon {
+    background-image:url('../images/16x16/apps/groupware-quickpanel-todo.png') !important;
+}
+
+/**
+ * Layout for upper panelhead of the quickpanel and the headers of the therin laying accordions
+ */
+.com-conjoon-groupware-QuickPanel-editPanel .x-panel-header {
+    background:transparent url(../images/light-hd.gif) repeat-x scroll 0pt -9px;
+    border-top:none;
+    color:#15428B;
+    font-weight:bold;
+    padding-bottom:3px;
+    padding-top:4px;
+}
+
+.com-conjoon-groupware-QuickPanel-editPanel .x-panel-body {
+    background-color:#CAD9EC;
+}
+
+.com-conjoon-groupware-QuickPanel-editPanel ul.x-tab-strip-bottom {
+    background-image:url(../images/tab-strip-btm-bg.png) !important;
+    height:29px;
+}
+
+.com-conjoon-groupware-QuickPanel-editPanel .x-tool-collapse-north {
+    background-position:0 -240px;
+}
+
+.com-conjoon-groupware-QuickPanel-editPanel .x-tool-collapse-north-over {
+    background-position:-15px -240px;
+}
+
+.com-conjoon-groupware-QuickPanel-editPanel .x-tab-panel-body {
+    border-top:none;
+}
+
+.com-conjoon-groupware-QuickPanel-editPanel .x-tab-panel-footer {
+    border-top:none;
+}
+
+.com-conjoon-groupware-QuickPanel-itemPanel {
+    padding-bottom:3px;
+}
+
+.com-conjoon-groupware-QuickPanel-itemPanel.east {
+    padding-right:4px;
+}
+
+.com-conjoon-groupware-QuickPanel-itemPanel.west {
+    padding-left:4px;
+}
+
+#com-conjoon-groupware-QuickPanel-itemPanel-west-xsplit{
+    background:url(../images/splitter-y.png) no-repeat scroll 1px 50% #CAD9EC !important;
+}
+
+#com-conjoon-groupware-QuickPanel-itemPanel-east-xsplit{
+    background:url(../images/splitter-y.png) no-repeat scroll 1px 50% #CAD9EC !important;
+}
+
+.com-conjoon-groupware-QuickPanel-itemPanel .x-panel-body {
+    background:#eef5fe url(../images/quickpanel-bg.png) repeat-x scroll 0 bottom;
+}
+
+.com-conjoon-groupware-QuickPanel-itemPanel .x-panel-header {
+    color:#15428B;
+    font-weight:bold;
+}

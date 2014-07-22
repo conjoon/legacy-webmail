@@ -1,0 +1,193 @@
+<?php
+/**
+ * conjoon
+ * (c) 2007-2014 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+namespace Conjoon\Mail\Client\Security;
+
+use Conjoon\Argument\ArgumentCheck,
+    Conjoon\Argument\InvalidArgumentException;
+
+/**
+ * @see MailFolderSecurityService
+ */
+require_once 'Conjoon/Mail/Client/Security/FolderSecurityService.php';
+
+/**
+ * @see Conjoon\Argument\ArgumentCheck
+ */
+require_once 'Conjoon/Argument/ArgumentCheck.php';
+
+/**
+ * @see Conjoon\Argument\InvalidArgumentException
+ */
+require_once 'Conjoon/Argument/InvalidArgumentException.php';
+
+/**
+ * @see Conjoon\Mail\Client\Security\SecurityServiceException
+ */
+require_once 'Conjoon/Mail/Client/Security/SecurityServiceException.php';
+
+/**
+ * @see Conjoon_Modules_Groupware_Email_Folder_Model_FoldersUsers
+ */
+require_once 'Conjoon/Modules/Groupware/Email/Folder/Model/FoldersUsers.php';
+
+/**
+ * @category   Conjoon_Mail
+ * @package    Folder
+ *
+ * @author Thorsten Suckow-Homberg <tsuckow@conjoon.org>
+ */
+class DefaultFolderSecurityService implements FolderSecurityService {
+
+    /**
+     * @var DoctrineMailFolderRepository
+     */
+    protected $folderRepository;
+
+    /**
+     * @var Conjoon\User\User
+     */
+    protected $user;
+
+    /**
+     * @var Conjoon\Mail\Client\Folder\MailFolderCommons
+     */
+    protected $folderCommons;
+
+
+    /**
+     * @inheritdoc
+     */
+    public function __construct(Array $options)
+    {
+        $data = array('options' => $options);
+
+        ArgumentCheck::check(array(
+            'options' => array(
+                'type'       => 'array',
+                'allowEmpty' => false
+            )
+        ), $data);
+
+        ArgumentCheck::check(array(
+            'mailFolderRepository' => array(
+                'type'  => 'instanceof',
+                'class' => 'Conjoon\Data\Repository\Mail\MailFolderRepository'
+            ),
+            'user' => array(
+                'type'  => 'instanceof',
+                'class' => 'Conjoon\User\User'
+            ),
+            'mailFolderCommons' => array(
+                'type'  => 'instanceof',
+                'class' => 'Conjoon\Mail\Client\Folder\FolderCommons'
+            ),
+        ), $options);
+
+        $this->folderRepository = $options['mailFolderRepository'];
+        $this->user             = $options['user'];
+        $this->folderCommons    = $options['mailFolderCommons'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isFolderAccessible(
+        \Conjoon\Mail\Client\Folder\Folder $folder)
+    {
+        /**
+         * @refactor uses old implementation
+         */
+
+        $path   = $folder->getPath();
+        $nodeId = $folder->getNodeId();
+        $rootId = $folder->getRootId();
+
+        $checkNodeId = null;
+
+        switch (true) {
+
+            // only root id available, check only root
+            case (empty($path) && empty($nodeId)):
+
+                $checkNodeId = $rootId;
+
+                break;
+
+            // paths set, node id avilable.
+            case (!empty($path) && !empty($nodeId)):
+
+                try {
+                    $doesMailFolderExist =
+                        $this->folderCommons->doesMailFolderExist($folder);
+                } catch (\Conjoon\Mail\Client\Folder\FolderServiceException $e) {
+                    throw new SecurityServiceException(
+                        "Exception thrown by previous exception: "
+                        . $e->getMessage, 0, $e
+                    );
+                }
+
+                // check if node id exists client side
+                if ($doesMailFolderExist) {
+                    // check if node is accessible
+                    $checkNodeId = $nodeId;
+
+                } else {
+                    // check if root node is accessible
+                    $checkNodeId = $rootId;
+                }
+
+                break;
+
+            default:
+                throw new SecurityServiceException(
+                    "Could not check whether folder \""
+                        . $folder->__toString()
+                        . "\" is accessible "
+                );
+
+        }
+
+        $foldersUsers =
+            new \Conjoon_Modules_Groupware_Email_Folder_Model_FoldersUsers();
+
+        $rel = $foldersUsers->getRelationShipForFolderAndUser(
+            $checkNodeId, $this->user->getId()
+        );
+
+        return $rel ===
+            \Conjoon_Modules_Groupware_Email_Folder_Model_FoldersUsers::OWNER;
+
+
+    }
+
+
+}
