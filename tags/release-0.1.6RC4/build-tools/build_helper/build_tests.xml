@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+ conjoon
+ (c) 2007-2014 conjoon.org
+ licensing@conjoon.org
+
+ conjoon
+ Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ $Author$
+ $Id$
+ $Date$
+ $Revision$
+ $LastChangedDate$
+ $LastChangedBy$
+ $URL$
+-->
+
+<!--
+ Invoke this build by calling: phing php_tests
+ Build file for running unit tests.
+ If you want to test uncommited, local code, make sure you pass the
+ option "export.local=1"
+
+
+ WARNING!
+ This build file is a sub-task and will not rebuild the project. In order
+ to rebuild the project, use the build.xml found in this folder which will
+ also call this build file.
+
+ @author Thorsten Suckow-Homberg <tsuckow@conjoon.org>
+-->
+
+<project name="conjoon-tests" default="php_tests" basedir="./">
+
+    <target name="php_tests">
+        <phpunit
+            printsummary="true"
+            haltonerror="true"
+            haltonfailure="true"
+            bootstrap="./build/export/src/corelib/php/tests/TestHelper.php"
+            haltonincomplete="true"
+            haltonskipped="true"
+        >
+            <batchtest>
+                <fileset dir="./build/export/src/corelib/php/tests">
+                    <include name="**/*Test.php"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
+    </target>
+
+</project>

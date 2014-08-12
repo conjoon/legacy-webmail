@@ -1,0 +1,439 @@
+<?xml version="1.0"?>
+<!--
+ conjoon
+ (c) 2007-2014 conjoon.org
+ licensing@conjoon.org
+
+ conjoon
+ Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ $Author$
+ $Id$
+ $Date$
+ $Revision$
+ $LastChangedDate$
+ $LastChangedBy$
+ $URL$
+-->
+
+<!--
+ This build file will process all files/directories related to the conjoon
+ project into the ../build directory.
+
+ Notice:
+ This build file will also call the build files
+  build_login.xml
+  build_css.xml
+
+  build_pack.xml and build_deploy will be called for the target deploy
+
+ If you call the targets pack or deploy, make sure you read the information
+ about possible parameters which can be found in the appropriate build
+ files.
+
+ Notice:
+ Use the option "export.local" to create a build with all local changes!
+ If this option is omitted, the HEAD revision will be exported and used for
+ creating the builds
+
+ List of possible options:
+ export.local 1/0
+
+ @author Thorsten Suckow-Homberg <tsuckow@conjoon.org>
+-->
+<!--
+/**
+* @todo @REV@
+* @todo database
+*/
+-->
+<project name="conjoon" default="rebuild" basedir="../">
+
+    <includepath classpath="./build-tools/phing" />
+    <taskdef name="exportallowed" classname="tasks.ExportAllowedPropertiesTask" />
+
+    <property file="./build-tools/build.properties" />
+
+    <property name="file.tmpProperties"
+                value="./build-tools/build_helper/_tmp/tmp.properties" />
+    <if>
+        <not>
+            <isset property="file.tmpProperties.created" />
+        </not>
+        <then>
+            <delete file="${file.tmpProperties}" />
+            <touch file="${file.tmpProperties}" />
+            <property name="file.tmpProperties.created" value="1" />
+        </then>
+    </if>
+
+<!--.............................................................................
+///////////////////////////// CHECKING PASSED OPTIONS\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+    <target if="global.valid_target" unless="global.called.check_options"
+        name="check_options"
+    >
+        <if>
+            <not>
+                <isset property="export.local" />
+            </not>
+            <then>
+                <property name="export.local" value="0" />
+            </then>
+        </if>
+        <if>
+            <and>
+                <not>
+                    <equals arg1="${export.local}" arg2="1" />
+                </not>
+                <not>
+                    <equals arg1="${export.local}" arg2="0" />
+                </not>
+            </and>
+            <then>
+                <fail message="Wrong value for option 'export.local'" />
+            </then>
+        </if>
+        <if>
+            <not>
+                <isset property="deploy.type" />
+            </not>
+            <then>
+                <property name="deploy.type" value="stable" />
+            </then>
+        </if>
+        <if>
+            <and>
+                <not>
+                    <equals arg1="${deploy.type}" arg2="stable" />
+                </not>
+                <not>
+                    <equals arg1="${deploy.type}" arg2="development" />
+                </not>
+            </and>
+            <then>
+                <fail message="Wrong value for option 'deploy.type'" />
+            </then>
+        </if>
+        <property name="global.called.check_options" value="1" />
+        <property name="global.export.local"         value="${export.local}" />
+        <property name="global.deploy.type"          value="${deploy.type}" />
+
+        <exportallowed targetfile="${file.tmpProperties}"  allowed="global" />
+    </target>
+<!--.............................................................................
+//////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+
+
+<!--.............................................................................
+///////////////////////////// GET SVN PROPERTIES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+    <target if="global.valid_target" unless="global.called.get_headrevision"
+        name="get_headrevision" depends="check_options"
+    >
+        <property file="${file.tmpProperties}" />
+        <if>
+            <equals arg1="${global.export.local}" arg2="0" />
+            <then>
+                <taskdef name="headrevision" classname="tasks.HeadRevisionTask" />
+                <headrevision
+                    dir="./"
+                    passthru="false"
+                    checkreturn="true"
+                    revisionProperty="svn.lastrevision"
+                />
+            </then>
+            <else>
+                <property name="svn.lastrevision" value="LOCAL" />
+            </else>
+        </if>
+        <echo>svn.lastrevision is set to ${svn.lastrevision}</echo>
+        <property name="global.svn.lastrevision" value="${svn.lastrevision}" />
+        <property name="global.called.get_headrevision" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}"  allowed="global" />
+    </target>
+<!--.............................................................................
+//////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+
+
+<!--.............................................................................
+////////////////// COLLECTS ALL INFORMATIONS BEFORE BUILDING \\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+<target if="global.valid_target" unless="global.called.collect_infos"
+        name="collect_infos"
+    >
+    <property file="${file.tmpProperties}" />
+    <phingcall target="check_options" />
+    <phingcall target="get_headrevision" />
+    <property name="global.called.collect_infos" value="1" />
+    <exportallowed targetfile="${file.tmpProperties}"  allowed="global" />
+</target>
+<!--.............................................................................
+//////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+
+
+
+<!--.............................................................................
+//////////////////////////////// EXPORT SVN \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+    <!-- BUILDS the export based upon export.local settings -->
+    <target if="global.valid_target" unless="global.called.svn_export"
+        name="svn_export" depends="collect_infos,prepare_svn_export"
+    >
+        <property file="${file.tmpProperties}" />
+        <property name="global.called.svn_export" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}"  allowed="global" />
+        <if>
+            <equals arg1="${global.export.local}" arg2="1" />
+            <then>
+                <echo>exporting local changes</echo>
+                <taskdef
+                    name="svnexportwithoutrevision"
+                    classname="tasks.SvnExportWithoutRevisionTask"
+                />
+                <svnexportwithoutrevision
+                    force="true"
+                    nocache="true"
+                    repositoryurl="./"
+                    todir="./build/export"
+                />
+            </then>
+            <else>
+                <echo>exporting HEAD revision</echo>
+                <svnexport
+                    force="true"
+                    nocache="true"
+                    repositoryurl="./"
+                    todir="./build/export"
+                />
+            </else>
+        </if>
+
+    </target>
+<!--.............................................................................
+//////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+
+
+<!--.............................................................................
+///////////////////////////// BUILD COMPLETE SOURCE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+    <target if="global.valid_target" unless="global.called.build_complete_source"
+        name="build_complete_source" depends="collect_infos,prepare_complete,svn_export"
+    >
+        <property file="${file.tmpProperties}" />
+        <property name="global.called.build_complete_source" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}" allowed="global"  />
+        <delete dir="build/complete/" />
+        <mkdir  dir="build/complete/" />
+        <copy todir="build/complete/vendor" includeemptydirs="true">
+            <fileset dir="build/export/vendor" />
+        </copy>
+        <copy todir="build/complete/src" includeemptydirs="true">
+            <fileset dir="build/export/src" />
+            <filterchain>
+                <filterreader classname="filters.PruneFileHeader" />
+            </filterchain>
+        </copy>
+        <copy todir="build/complete/build-tools" includeemptydirs="true">
+            <fileset dir="build/export/build-tools" />
+            <filterchain>
+                <filterreader classname="filters.PruneFileHeader" />
+            </filterchain>
+        </copy>
+        <copy todir="./build/complete">
+            <fileset dir="./build/export">
+                <include name="INSTALL.txt" />
+                <include name="CHANGELOG.txt" />
+                <include name="LICENSE.txt" />
+                <include name="README.txt" />
+            </fileset>
+        </copy>
+        <docblox
+            title="conjoon PHP library"
+            destdir="./build/complete/src/corelib/php/docs">
+            <fileset dir="./build/complete/src/corelib/php/library">
+                <include name="**/*.php" />
+            </fileset>
+        </docblox>
+        <phingcall target="build_install" />
+        <delete dir="./build/complete/build" />
+        <mkdir  dir="./build/complete/build" />
+        <copy todir="./build/complete/build">
+            <fileset dir="./build/build" />
+        </copy>
+    </target>
+<!--.............................................................................
+//////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+
+<!--.............................................................................
+///////////////////////////// PREPARING DIRECTORIES \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+    <!-- prepare directories -->
+
+    <target if="global.valid_target" unless="global.called.prepare_svn_export"
+        name="prepare_svn_export"
+    >
+        <property name="global.called.prepare_svn_export" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}"  allowed="global" />
+        <delete dir="./build/export" />
+        <mkdir  dir="./build/export" />
+    </target>
+
+    <target if="global.valid_target" unless="global.called.prepare"
+        name="prepare"
+    >
+        <property name="global.called.prepare" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}"  allowed="global" />
+        <delete dir="./build" />
+        <phingcall target="prepare_complete" />
+        <phingcall target="prepare_install" />
+    </target>
+
+    <target if="global.valid_target" unless="global.called.prepare_complete"
+        name="prepare_complete"
+    >
+        <property name="global.called.prepare_complete" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}" allowed="global" />
+        <delete dir="./build/complete" />
+        <mkdir  dir="./build/complete" />
+    </target>
+
+    <target if="global.valid_target" unless="global.called.prepare_install"
+        name="prepare_install"
+    >
+        <property name="global.called.prepare_install" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}" allowed="global" />
+        <delete dir="./build/build" />
+        <mkdir  dir="./build/build" />
+    </target>
+<!--.............................................................................
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////////////////
+..............................................................................-->
+
+
+<!--.............................................................................
+///////////////////// CONCRETE TARGETS TO BE INVOKED \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+..............................................................................-->
+    <!-- completely removes the build dir -->
+    <target name="rebuild">
+        <property file="${file.tmpProperties}" />
+        <property name="global.valid_target" value="1" />
+        <property name="global.rebuild" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}" allowed="global"  />
+        <phingcall target="prepare" />
+        <phingcall target="build_complete" />
+        <phingcall target="build_install" />
+    </target>
+
+    <!-- BUILDS the complete version and generates docs -->
+    <target name="build_complete">
+        <property file="${file.tmpProperties}" />
+        <property name="global.valid_target" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}" allowed="global"  />
+        <phingcall target="build_complete_source" />
+    </target>
+
+    <!-- build an installable version -->
+    <target unless="global.called.build_install" name="build_install">
+        <property file="${file.tmpProperties}" />
+        <property name="global.valid_target" value="1" />
+        <property name="global.called.build_install" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}" allowed="global"  />
+        <phingcall target="collect_infos" />
+        <phingcall target="prepare_install" />
+        <phingcall target="svn_export" />
+        <phing phingfile="./build-tools/build_helper/build_install.xml"
+            haltonfailure="true"
+            inheritRefs="false"
+            inheritAll="true"
+         />
+    </target>
+
+    <!-- packs the generated builds -->
+    <target name="pack">
+        <property file="${file.tmpProperties}" />
+        <property name="global.valid_target" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}" allowed="global"  />
+        <phingcall target="rebuild" />
+        <phing phingfile="./build-tools/build_helper/build_pack.xml"
+            haltonfailure="true"
+            inheritRefs="false"
+            inheritAll="true"
+        />
+    </target>
+
+    <!-- deploys the packed files -->
+    <target name="deploy">
+        <property file="${file.tmpProperties}" />
+        <property name="global.valid_target" value="1" />
+        <exportallowed targetfile="${file.tmpProperties}" allowed="global"  />
+        <phingcall target="pack" />
+
+        <if>
+            <equals arg1="${deploy.type}" arg2="development" />
+            <then>
+                <echo>Preparing deployment of development version</echo>
+                <phing phingfile="./build-tools/build_helper/build_deploy.xml"
+                    haltonfailure="true"
+                    inheritRefs="false"
+                    inheritAll="true"
+                    target="collect_dev"
+                />
+            </then>
+            <else>
+                <echo>Preparing deployment of stable version</echo>
+                <phing phingfile="./build-tools/build_helper/build_deploy.xml"
+                    haltonfailure="true"
+                    inheritRefs="false"
+                    inheritAll="true"
+                    target="collect_info"
+                />
+            </else>
+        </if>
+
+
+
+
+    </target>
+<!--.............................................................................
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////////////////
+..............................................................................-->
+
+
+<!--.............................................................................
+/////////////////////////// STANDALONE TARGETS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+The following targets should be called from teh command line without invoking
+other targets.
+..............................................................................-->
+    <target name="php_tests" depends="svn_export">
+        <phing phingfile="./build-tools/build_helper/build_tests.xml"
+            haltonfailure="true"
+            inheritRefs="false"
+            inheritAll="true"
+        />
+    </target>
+<!--.............................................................................
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////////////////
+..............................................................................-->
+
+
+
+</project>
