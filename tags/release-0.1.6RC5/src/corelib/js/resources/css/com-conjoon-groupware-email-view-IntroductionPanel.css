@@ -1,0 +1,119 @@
+/**
+ * conjoon
+ * (c) 2007-2015 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+.com-conjoon-groupware-email-view-IntroductionPanel {
+    border:1px solid #99bbe8;
+    background:white;
+    overflow:auto;
+    padding:20px;
+    font-family:Tahoma,verdana, Helvetica, Arial;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel .head {
+    background:#ffffff url(../images/groupware-email-introductionpanelhead.png) no-repeat left top;
+    padding-left:64px;
+    height:100px;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel .head .names {
+    font-size:22px;
+    font-weight:bold;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel .head .quest {
+    color:#787878;
+    font-size:18px;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel .list {
+    width:500px;
+    margin-left:64px;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel .list li h2 {
+    background:transparent url(../images/groupware-email-introductionheadbg.png) repeat-x left bottom;
+    color:#393939;
+    font-size:18px;
+    padding:4px 0 4px 20px;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.reademail {
+    background:transparent url(../images/32x32/actions/groupware-email-mailread.png) no-repeat left bottom;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.writeemail {
+    background:transparent url(../images/32x32/actions/groupware-email-mailnew.png) no-repeat left bottom;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.accountnew {
+    background:transparent url(../images/32x32/actions/groupware-email-accountnew.png) no-repeat left bottom;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.accountsettings {
+    background:transparent url(../images/32x32/actions/groupware-email-accountsettings.png) no-repeat left bottom;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.mailsearch {
+    background:transparent url(../images/32x32/actions/groupware-email-mailsearch.png) no-repeat left bottom;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.filternew {
+    background:transparent url(../images/32x32/actions/groupware-email-filternew.png) no-repeat left bottom;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.warning {
+    background:transparent url(../images/32x32/actions/groupware-email-accountnotfound.png) no-repeat left 50%;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.reademail,
+.com-conjoon-groupware-email-view-IntroductionPanel li.writeemail,
+.com-conjoon-groupware-email-view-IntroductionPanel li.accountnew,
+.com-conjoon-groupware-email-view-IntroductionPanel li.accountsettings,
+.com-conjoon-groupware-email-view-IntroductionPanel li.mailsearch,
+.com-conjoon-groupware-email-view-IntroductionPanel li.warning,
+.com-conjoon-groupware-email-view-IntroductionPanel li.filternew {
+    margin:16px 0 0;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li.optionlist {
+    margin-bottom:28px;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li a {
+    color:#4B4B4B;
+    font-size:14px;
+    padding:8px 0 8px 48px;
+    display:block;
+    text-decoration:none;
+}
+
+.com-conjoon-groupware-email-view-IntroductionPanel li a:hover {
+    text-decoration:underline;
+}
