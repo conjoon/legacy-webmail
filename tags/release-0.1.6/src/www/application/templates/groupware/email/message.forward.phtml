@@ -1,0 +1,132 @@
+<?php
+/**
+ * conjoon
+ * (c) 2007-2015 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+?>
+<br />
+<br />
+------ Original Message ------
+<table>
+    <tbody>
+
+    <tr>
+        <td style='text-align:right'>
+            <strong>Subject:</strong>
+        </td>
+        <td><?php echo $this->subject; ?></td>
+    </tr>
+    <tr>
+        <td style='text-align:right'>
+            <strong>Date:</strong>
+        </td>
+        <td><?php echo $this->date; ?></td>
+    </tr>
+    <tr>
+        <td style='text-align:right'>
+            <strong>From:</strong>
+        </td>
+        <td>
+            <?php
+                echo isset($this->from[0][1])
+                     ? $this->from[0][1] .
+                      ' &lt;' . $this->from[0][0] . '&gt;'
+                     : $this->from[0][0];
+            ?>
+
+        </td>
+    </tr>
+
+    <?php if (isset($this->replyTo) && count($this->replyTo)) { ?>
+    <tr>
+        <td style='text-align:right'>
+            <strong>Reply-To:</strong>
+        </td>
+        <td>
+           <?php
+            $arr = array();
+            for ($i = 0, $len = count($this->replyTo); $i < $len; $i++) {
+                $arr[] = isset($this->replyTo[$i][1])
+                         ? $this->replyTo[$i][1] .
+                           ' &lt;' . $this->replyTo[$i][0] . '&gt;'
+                         : $this->replyTo[$i][0];
+            }
+            echo implode(', ', $arr);
+           ?>
+        </td>
+    </tr>
+    <?php } ?>
+
+    <?php if (isset($this->to) && count($this->to)) { ?>
+    <tr>
+        <td style='text-align:right'>
+            <strong>To:</strong>
+        </td>
+        <td>
+            <?php
+            $arr = array();
+            for ($i = 0, $len = count($this->to); $i < $len; $i++) {
+                $arr[] = isset($this->to[$i][1])
+                    ? $this->to[$i][1] .
+                        ' &lt;' . $this->to[$i][0] . '&gt;'
+                    : $this->to[$i][0];
+            }
+            echo implode(', ', $arr);
+            ?>
+        </td>
+    </tr>
+        <?php } ?>
+
+    <?php if (isset($this->cc) && count($this->cc)) { ?>
+    <tr>
+        <td style='text-align:right'>
+            <strong>Cc:</strong>
+        </td>
+        <td>
+            <?php
+            $arr = array();
+            for ($i = 0, $len = count($this->cc); $i < $len; $i++) {
+                $arr[] = isset($this->cc[$i][1])
+                    ? $this->cc[$i][1] .
+                        ' &lt;' . $this->cc[$i][0] . '&gt;'
+                    : $this->cc[$i][0];
+            }
+            echo implode(', ', $arr);
+            ?>
+        </td>
+    </tr>
+        <?php } ?>
+
+    </tbody>
+</table>
+
+<blockquote>
+    <?php echo $this->contentTextPlain; ?>
+</blockquote>
+
+

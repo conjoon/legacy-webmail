@@ -1,0 +1,45 @@
+﻿Version 0.5
+19-April-2014
+ - enhancement: added support for "groupchange" event, i.e. support for 
+stateful grouping grids using this plugin
+
+Version 0.4
+01-November-2012
+ - enhancement: added Ext 3.4 compatibility
+
+Version 0.3
+06-January-2009
+ - enhancement: added Ext 3.1.1 compatibility
+
+05-January-2009
+ - fixed: fixed an issue where initial showing the menu would not align it
+properly
+
+Version 0.2RC3
+03-May-2009
+ - enhancement: removed workaround for an Ext JS 3.0RC1 issue that was resolved in
+the main dev branch by them
+
+Version 0.2RC2
+19-April-2009
+
+ - fixed: typo in build file name
+ - enhancement: updated docs
+ - fixed: destroy method would not be able to remove all items from the col menu
+since the beforeremove listener would prevent it to remove items registered
+in _keepItems
+
+Version 0.2RC1
+18-April-2009
+
+ - enhancement: added examples for regular- and grouping-grid
+ - enhancement: added build tools for the project
+ - enhancement: added functionality to support Ext.grid.GroupingView
+ - fixed: view property would not be initialized at startup; changed to
+call "getView()" to make sure view is available when plugin is initialized
+ - enhancement: grid's "enableHdMenu" can now be used to disable rendering
+the plugin and does not throw an exception anymore if it is set to "true"
+ - enhancement: plugin now works with Ext >= 3.0RC1
+
+Version 0.1
+05-November-2008

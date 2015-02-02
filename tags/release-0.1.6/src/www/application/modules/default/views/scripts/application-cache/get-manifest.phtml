@@ -1,0 +1,22 @@
+CACHE MANIFEST
+#last changed: <?php echo $this->lastChanged. "\n"; ?>
+#conjoon <?php echo $this->conjoonVersion; ?>
+
+CACHE:
+<?php
+if (!empty($this->files)) {
+    if (@file_exists($this->files['combinedFile'])) {
+        $m = trim(file_get_contents($this->files['combinedFile']));
+        if ($m) {
+            echo $m . "\n";
+        }
+    } else {
+
+        echo "# cannot access file \"" . array_pop(explode('/', $this->files['combinedFile'])) . "\"\n";
+
+    }
+}
+?>
+
+NETWORK:
+*
