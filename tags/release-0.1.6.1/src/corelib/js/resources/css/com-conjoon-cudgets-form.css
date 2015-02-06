@@ -1,0 +1,62 @@
+/**
+ * conjoon
+ * (c) 2007-2015 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+/**
+ * Taken from Ext.ux.form.FileUploadField as found in the examples coming
+ * with ExtJS 3.1.2
+ * FileUploadField component styles
+ */
+.com-conjoon-cudgets-form-HtmlFileChooserButton.wrap {
+    position:relative;
+    height:22px!important;
+    overflow:hidden;
+}
+.com-conjoon-cudgets-form-HtmlFileChooserButton.wrap .input {
+    position:absolute;
+    right:0;
+    cursor:pointer;
+    -moz-opacity: 0;
+    filter:alpha(opacity: 0);
+    opacity:0;
+    z-index:2;
+    height:22px;
+}
+.com-conjoon-cudgets-form-HtmlFileChooserButton.wrap .btn {
+    position:absolute;
+    right: 0;
+    top:0;
+    z-index:1;
+}
+.com-conjoon-cudgets-form-HtmlFileChooserButton.wrap .text {
+    position:absolute;
+    left:0;
+    z-index:3;
+    color: #777;
+}

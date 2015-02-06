@@ -1,0 +1,102 @@
+/**
+ * conjoon
+ * (c) 2007-2015 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-unknown {
+    background-image:url(../images/16x16/mimetypes/unknown.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-image {
+    background-image:url(../images/16x16/mimetypes/image.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-wordprocessing {
+    background-image:url(../images/16x16/mimetypes/wordprocessing.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-pdf {
+    background-image:url(../images/16x16/mimetypes/pdf.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-sound {
+    background-image:url(../images/16x16/mimetypes/sound.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-compressed {
+    background-image:url(../images/16x16/mimetypes/compressed.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-spreadsheet {
+    background-image:url(../images/16x16/mimetypes/spreadsheet.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-presentation {
+    background-image:url(../images/16x16/mimetypes/presentation.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-php {
+    background-image:url(../images/16x16/mimetypes/php.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-video {
+    background-image:url(../images/16x16/mimetypes/video.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-vcard {
+    background-image:url(../images/16x16/mimetypes/vcard.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-signed {
+    background-image:url(../images/16x16/mimetypes/signed.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-patch {
+    background-image:url(../images/16x16/mimetypes/patch.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-message {
+    background-image:url(../images/16x16/mimetypes/message.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-stylesheet {
+    background-image:url(../images/16x16/mimetypes/stylesheet.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-html {
+    background-image:url(../images/16x16/mimetypes/html.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-directory {
+    background-image:url(../images/16x16/mimetypes/directory.png)!important;
+}
+
+.com-conjoon-cudgets-util-MimeIconFactory-mimeType-txt {
+    background-image:url(../images/16x16/mimetypes/txt.png)!important;
+}
+

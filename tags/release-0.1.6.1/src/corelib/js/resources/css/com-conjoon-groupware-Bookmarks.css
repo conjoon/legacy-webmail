@@ -1,0 +1,59 @@
+/**
+ * conjoon
+ * (c) 2007-2015 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+/**
+ * Bookmarks Toolbar
+ */
+.com-conjoon-groupware-Bookmarks-container {
+    width:36px;
+    left:10px;
+    top:30px;
+    position:absolute;
+}
+
+.com-conjoon-groupware-Bookmarks-container td {
+    background-image:url(../images/s.gif);
+}
+
+.com-conjoon-groupware-Bookmarks-container .x-btn-over td,
+.com-conjoon-groupware-Bookmarks-container .x-btn-over button,
+.com-conjoon-groupware-Bookmarks-container .x-btn-menu-active td,
+.com-conjoon-groupware-Bookmarks-container .x-btn-menu-active button {
+    background-image:url(../images/btn.gif);
+}
+
+.com-conjoon-groupware-Bookmarks-container em {
+    padding-right:2px!important;
+    background:none!important;
+}
+
+.com-conjoon-groupware-Bookmark-toolbar-bookmarkButton-icon {
+    background-image:url(../images/16x16/actions/groupware-bookmark-launch.png)!important;
+}

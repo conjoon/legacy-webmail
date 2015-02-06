@@ -1,0 +1,94 @@
+/**
+ * conjoon
+ * (c) 2007-2015 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+.cn-splashScreen {
+    position:absolute;
+    height:100%;
+    font-family:'Segoe Ui', Tahoma, Verdana, Arial;
+    font-weight:lighter;
+    color:white;
+    width:100%;
+    top:0;
+    left:0;
+    z-index:999999;
+    background-image:url(../images/startup-bg.png);
+    background-position:top;
+    background-repeat:repeat-x;
+    background-color:#355899;
+}
+
+.cn-splashScreen .body {
+    display:none;
+    position:absolute;
+    bottom:120px;
+    left:80px;
+    width:100%;
+}
+
+
+.cn-splashScreen .body .greetingCont {
+    font-size:64px;
+}
+
+
+.cn-splashScreen .body .loadingCont {
+    height:140px;
+    margin-top:24px;
+}
+
+.cn-splashScreen .errorPanel {
+    background-image:url(../images/splashscreen-error-bg.png);
+    color:#FFFFFF;
+    height:85px;
+    padding:4px;
+    display:none;
+}
+
+.cn-splashScreen .errorPanel .textContainer {
+    background-image:url(../images/32x32/actions/splashscreen-startup-error.png);
+    background-repeat:no-repeat;
+    height:86px;
+    padding:0px 0px 0px 42px;
+}
+
+.cn-splashScreen .errorPanel .textContainer .message {
+    overflow:auto;
+    height:60px;
+}
+
+.cn-splashScreen .errorPanel .textContainer .notice {
+}
+
+
+.cn-splashScreen .loadingCont .loading {
+    font-size:12px;
+    height:20px;
+}
+

@@ -1,0 +1,127 @@
+/**
+ * conjoon
+ * (c) 2007-2015 conjoon.org
+ * licensing@conjoon.org
+ *
+ * conjoon
+ * Copyright (C) 2014 Thorsten Suckow-Homberg/conjoon.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+ * $Author$
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $URL$
+ */
+
+.com-conjoon-empty {
+}
+
+.com-conjoon-attr-fontWeight-bold {
+    font-weight:bold !important;
+}
+
+.com-conjoon-attr-fontWeight-normal {
+    font-weight:normal !important;
+}
+
+
+.com-conjoon-smalleditor .x-combo-list-item {
+    font-size:11px !important;
+}
+
+.com-conjoon-smalleditor .x-form-cb-label /*label*/ {
+    font-size:11px !important;
+}
+
+.com-conjoon-smalleditor .x-form-display-field {
+    font-size:11px !important;
+}
+
+body.ext-gecko .com-conjoon-smalleditor .x-form-display-field,
+body.ext-webkit .com-conjoon-smalleditor .x-form-display-field {
+    padding-top:3px;
+}
+
+body.ext-ie8 .com-conjoon-smalleditor .x-form-display-field {
+    padding-top:3px;
+}
+
+.com-conjoon-go-trigger {
+    background-image: url(../images/trigger-go.png) !important;
+    cursor:pointer;
+}
+
+.com-conjoon-margin-t-5 {
+    margin-top:5px;
+}
+
+.com-conjoon-margin-t-10 {
+    margin-top:10px;
+}
+
+.com-conjoon-margin-t-15 {
+    margin-top:15px;
+}
+
+.com-conjoon-margin-t-25 {
+    margin-top:25px;
+}
+
+.com-conjoon-margin-b-5 {
+    margin-bottom:5px;
+}
+
+.com-conjoon-margin-l-15 {
+    margin-left:15px;
+}
+
+.com-conjoon-margin-l-25 {
+    margin-left:25px;
+}
+
+.com-conjoon-margin-b-10 {
+    margin-bottom:10px;
+}
+
+.com-conjoon-margin-b-15 {
+    margin-bottom:15px;
+}
+
+.com-conjoon-margin-b-20 {
+    margin-bottom:20px;
+}
+
+.com-conjoon-float-left {
+   float:left;
+}
+
+.com-conjoon-clear {
+   clear:both;
+}
+
+.com-conjoon-width-100 {
+   width:100px;
+}
+
+.com-conjoon-width-125 {
+   width:125px;
+}
+
+.com-conjoon-width-150 {
+   width:150px;
+}
